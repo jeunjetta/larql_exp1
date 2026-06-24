@@ -83,8 +83,35 @@ def _(mo):
 
 
 @app.cell
+def _(mo):
+    # Layer range filter (standalone UI)
+    layer_range = mo.ui.range_slider(
+        start=0,
+        stop=33,
+        step=1,
+        value=(0, 33),
+        label="📊 Layer Range Filter"
+    )
+    layer_range
+    return (layer_range,)
+
+
+@app.cell
+def _(mo, mock_edges):
+    # Relation type filter (depends on mock_edges for options)
+    relation_options = ["All"] + sorted(set(e["relation"] for e in mock_edges))
+    relation_filter = mo.ui.dropdown(
+        options=relation_options,
+        value="All",
+        label="🔗 Relation Type Filter"
+    )
+    relation_filter
+    return (relation_filter,)
+
+
+@app.cell
 def _(mo, entity_input, is_script_mode):
-    # Build mock graph data
+    # Build mock graph data (FULL list, no filtering here)
     mock_edges = [
         {"relation": "capital", "target": "Paris", "score": 1436.9, "layer": 27},
         {"relation": "language", "target": "French", "score": 35.2, "layer": 24},
