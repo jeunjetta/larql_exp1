@@ -51,7 +51,7 @@ def _(mo, is_script_mode):
 
 Key insight: **The model IS the database.** Instead of fine-tuning to add knowledge, you:
 1. `DESCRIBE` — browse what the model already knows
-2. `WALK` — traverse knowledge paths through the residual stream  
+2. `WALK` — traverse knowledge paths through the residual stream
 3. `INFER` — run inference with the vindex
 4. `INSERT`/`COMPILE` — patch knowledge directly into weight matrices
 
@@ -123,6 +123,80 @@ COMPILE CURRENT INTO VINDEX;
 ---
 """
     )
+    return
+
+
+@app.cell
+def _(mo):
+    # Interactive DESCRIBE demo
+    mo.md(
+        r"""
+## 🎯 Interactive Demo: Try DESCRIBE
+
+Type an entity name below and click "Describe" to see mock results:
+"""
+    )
+    entity_input = mo.ui.text(
+        value="France",
+        label="Entity to DESCRIBE"
+    )
+    describe_button = mo.ui.run_button(label="🔍 DESCRIBE")
+    mo.md("**Try it:** Type an entity (e.g., `France`, `Einstein`, `Paris`) and click Describe.")
+    entity_input, describe_button
+    return entity_input, describe_button
+
+
+@app.cell
+def _(mo, entity_input, describe_button):
+    # Show mock DESCRIBE results
+    if describe_button.value:
+        _entity = entity_input.value or "France"
+
+        # Mock knowledge base for demo
+        _mock_knowledge = {
+            "France": [
+                ("capital", "Paris", 0.98, 18),
+                ("language", "French", 0.94, 16),
+                ("currency", "Euro", 0.91, 20),
+                ("continent", "Europe", 0.89, 14),
+            ],
+            "Einstein": [
+                ("field", "Physics", 0.97, 22),
+                ("known-for", "Relativity", 0.95, 24),
+                ("nobel-prize", "Physics 1921", 0.92, 20),
+                ("born-in", "Germany", 0.88, 18),
+            ],
+            "Paris": [
+                ("is-capital-of", "France", 0.99, 19),
+                ("landmark", "Eiffel Tower", 0.96, 21),
+                ("language", "French", 0.93, 17),
+                ("country", "France", 0.91, 15),
+            ],
+        }
+
+        _results = _mock_knowledge.get(_entity, [
+            ("related-to", f"[mock result for {_entity}]", 0.75, 20),
+            ("property", "[not in mock DB]", 0.60, 18),
+        ])
+
+        # Build HTML table for results
+        _rows = ""
+        for rel, tgt, score, layer in _results:
+            _rows += f"<tr><td>{rel}</td><td>{tgt}</td><td>{score:.2f}</td><td>{layer}</td></tr>"
+
+        mo.md(f"""
+### DESCRIBE "{_entity}" (Mock Results)
+
+**LQL:** `DESCRIBE "{_entity}";`
+
+| Relation | Target | Score | Layer |
+|----------|--------|-------|-------|
+{_rows}
+
+*Note: These are mock results for demonstration. Real DESCRIBE queries load a vindex.*
+""")
+    else:
+        mo.md('*Click "DESCRIBE" above to see mock results.*')
     return
 
 
@@ -201,7 +275,7 @@ Explore these interactive notebooks:
 2. **`walk_knowledge.py`** — Learn `WALK`: traverse knowledge paths
 3. **`inference_predict.py`** — Learn `INFER`: run inference with vindex
 4. **`compile_knowledge.py`** — Learn `COMPILE`: edit and recompile knowledge
-5. **`verify_vindex.py`** — Validate a vindex structure
+5. **`03_lql_syntax.py`** — Complete LQL language tutorial
 
 ---
 
