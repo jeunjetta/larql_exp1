@@ -20,8 +20,8 @@ Current notebooks exist but need to be more educational:
 - [x] `03_lql_syntax.py` - LQL language tutorial (DESCRIBE, WALK, SELECT syntax) ✅ (created + script-mode verified 2026-06-25)
 - [x] `04_mutation_basics.py` - INSERT/DELETE/UPDATE tutorial ✅ (created + script-mode verified 2026-06-25)
 - [x] `05_patches.py` - Patch system tutorial (BEGIN PATCH, SAVE PATCH) ✅ (created + script-mode verified 2026-06-25)
-- [x] `06_vindex_format.py` - Vindex file format deep dive ✅ (created 2026-06-25)
-- [ ] `07_extraction_levels.py` - Browse vs Inference vs All levels
+|- [x] `06_vindex_format.py` - Vindex file format deep dive ✅ (created 2026-06-25)
+|- [x] `07_extraction_levels.py` - Browse vs Inference vs All levels ✅ (created 2026-06-25)
 
 ### 3. Create Interactive Visualization Notebooks (Medium Priority)
 - [ ] `visualize_gate_knn.py` - Interactive gate KNN exploration
@@ -42,16 +42,17 @@ Only 5 of 43 notebooks have MoLab badges. Need to add to remaining 38.
 | Notebook | Educational? | Interactive? | MoLab Badge? | Script Mode? |
 |----------|-------------|-------------|--------------|--------------|
 | `00_what_is_larql.py` | ✅ Enhanced | ✅ Yes (DESCRIBE demo) | ✅ Yes | ✅ Verified |
-| `01_extract_index.py` | Partial | No | No | Unknown |
-| `02_graph_structure.py` | Partial | No | No | Unknown |
+| `01_extract_index.py` | Partial | No | ✅ Yes | Unknown |
+| `02_graph_structure.py` | Partial | No | ✅ Yes | Unknown |
 | `03_lql_syntax.py` | ✅ Yes | ✅ Yes (dropdown) | ✅ Yes | ✅ Verified |
 | `04_mutation_basics.py` | ✅ Yes | ✅ Yes (dropdown) | ✅ Yes | ✅ Verified |
 | `05_patches.py` | ✅ Yes | ✅ Yes (dropdown) | ✅ Yes | ✅ Verified |
 | `06_vindex_format.py` | ✅ Yes | ✅ Yes (layer selector) | ✅ Yes | ✅ Verified |
-| `describe_explorer.py` | Yes | Partial | Yes | Yes |
-| `walk_knowledge.py` | Yes | Partial | Yes | Unknown |
-| `inference_predict.py` | Yes | Partial | Yes | Unknown |
-| `compile_knowledge.py` | Yes | Partial | Yes | Unknown |
+| `07_extraction_levels.py` | ✅ Yes | ✅ Yes (dropdown) | ✅ Yes | ✅ Verified |
+| `describe_explorer.py` | Yes | Partial | ✅ Yes | Yes |
+| `walk_knowledge.py` | Yes | Partial | ✅ Yes | Unknown |
+| `inference_predict.py` | Yes | Partial | ✅ Yes | Unknown |
+| `compile_knowledge.py` | Yes | Partial | ✅ Yes | Unknown |
 | `setup.py` | N/A | N/A | No | Yes |
 
 ## Educational Notebook Checklist
