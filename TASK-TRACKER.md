@@ -20,7 +20,7 @@ Current notebooks exist but need to be more educational:
 - [x] `03_lql_syntax.py` - LQL language tutorial (DESCRIBE, WALK, SELECT syntax) ✅ (created + script-mode verified 2026-06-25)
 - [x] `04_mutation_basics.py` - INSERT/DELETE/UPDATE tutorial ✅ (created + script-mode verified 2026-06-25)
 - [x] `05_patches.py` - Patch system tutorial (BEGIN PATCH, SAVE PATCH) ✅ (created + script-mode verified 2026-06-25)
-- [ ] `06_vindex_format.py` - Vindex file format deep dive
+- [x] `06_vindex_format.py` - Vindex file format deep dive ✅ (created 2026-06-25)
 - [ ] `07_extraction_levels.py` - Browse vs Inference vs All levels
 
 ### 3. Create Interactive Visualization Notebooks (Medium Priority)
@@ -47,6 +47,7 @@ Only 5 of 43 notebooks have MoLab badges. Need to add to remaining 38.
 | `03_lql_syntax.py` | ✅ Yes | ✅ Yes (dropdown) | ✅ Yes | ✅ Verified |
 | `04_mutation_basics.py` | ✅ Yes | ✅ Yes (dropdown) | ✅ Yes | ✅ Verified |
 | `05_patches.py` | ✅ Yes | ✅ Yes (dropdown) | ✅ Yes | ✅ Verified |
+| `06_vindex_format.py` | ✅ Yes | ✅ Yes (layer selector) | ✅ Yes | ✅ Verified |
 | `describe_explorer.py` | Yes | Partial | Yes | Yes |
 | `walk_knowledge.py` | Yes | Partial | Yes | Unknown |
 | `inference_predict.py` | Yes | Partial | Yes | Unknown |
