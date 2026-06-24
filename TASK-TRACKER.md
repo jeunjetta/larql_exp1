@@ -43,7 +43,7 @@ Only 5 of 43 notebooks have MoLab badges. Need to add to remaining 38.
 |----------|-------------|-------------|--------------|--------------|
 | `00_what_is_larql.py` | ✅ Enhanced | ✅ Yes (DESCRIBE demo) | ✅ Yes | ✅ Verified |
 | `01_extract_index.py` | ✅ Enhanced | ✅ Yes (step-by-step simulator) | ✅ Yes | ✅ Verified |
-| `02_graph_structure.py` | Partial | No | ✅ Yes | Unknown |
+| `02_graph_structure.py` | ✅ Enhanced | ✅ Yes (graph visualization) | ✅ Yes | ✅ Verified |
 | `03_lql_syntax.py` | ✅ Yes | ✅ Yes (dropdown) | ✅ Yes | ✅ Verified |
 | `04_mutation_basics.py` | ✅ Yes | ✅ Yes (dropdown) | ✅ Yes | ✅ Verified |
 | `05_patches.py` | ✅ Yes | ✅ Yes (dropdown) | ✅ Yes | ✅ Verified |

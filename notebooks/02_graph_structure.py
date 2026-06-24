@@ -3,6 +3,8 @@
 # dependencies = [
 #     "marimo",
 #     "numpy>=2.0.0",
+#     "networkx>=3.0",
+#     "plotly>=5.0",
 # ]
 # ///
 
@@ -117,9 +119,111 @@ def _(mo, entity_input, is_script_mode):
 - `source` — How this edge was discovered (probe, explicit, ...)
 
 """
-    
+
     # Display content outside conditional
     mo.md(_content)
+    return
+
+@app.cell
+def _(mo, entity_input, mock_edges):
+    # Build networkx graph for visualization
+    import networkx as nx
+    import plotly.graph_objects as go
+
+    G = nx.DiGraph()
+
+    # Add nodes and edges from mock data
+    source_entity = entity_input.value
+    G.add_node(source_entity, type='source')
+    for _e in mock_edges:
+        target = _e['target']
+        G.add_node(target, type='target')
+        G.add_edge(source_entity, target,
+                   relation=_e['relation'],
+                   score=_e['score'],
+                   layer=_e['layer'])
+
+    # Use spring layout for positioning
+    pos = nx.spring_layout(G, k=2, iterations=50, seed=42)
+
+    # Create edge trace
+    edge_x = []
+    edge_y = []
+    edge_text = []
+    for u, v, data in G.edges(data=True):
+        x0, y0 = pos[u]
+        x1, y1 = pos[v]
+        edge_x.extend([x0, x1, None])
+        edge_y.extend([y0, y1, None])
+        edge_text.append(f"{data['relation']} (L{data['layer']}, score={data['score']:.1f})")
+
+    edge_trace = go.Scatter(
+        x=edge_x, y=edge_y,
+        line=dict(width=2, color='#888'),
+        hoverinfo='none',
+        mode='lines'
+    )
+
+    # Create node trace
+    node_x = []
+    node_y = []
+    node_text = []
+    node_color = []
+    for node in G.nodes():
+        x, y = pos[node]
+        node_x.append(x)
+        node_y.append(y)
+        node_text.append(node)
+        if node == source_entity:
+            node_color.append('#FF6B6B')  # Red for source
+        else:
+            node_color.append('#4ECDC4')  # Teal for targets
+
+    node_trace = go.Scatter(
+        x=node_x, y=node_y,
+        mode='markers+text',
+        hoverinfo='text',
+        text=node_text,
+        textposition='top center',
+        marker=dict(
+            showscale=False,
+            color=node_color,
+            size=20,
+            line=dict(width=2, color='white')
+        )
+    )
+
+    # Create figure
+    fig = go.Figure(
+        data=[edge_trace, node_trace],
+        layout=go.Layout(
+            title=dict(
+                text=f'Knowledge Graph: "{source_entity}"',
+                font=dict(size=16)
+            ),
+            showlegend=False,
+            hovermode='closest',
+            margin=dict(b=20, l=5, r=5, t=40),
+            annotations=[dict(
+                text="Red=Source Entity, Teal=Target Entities<br>Hover over edges to see relation details",
+                showarrow=False,
+                xref="paper", yref="paper",
+                x=0.005, y=-0.002,
+                xanchor='left', yanchor='bottom',
+                font=dict(size=10)
+            )],
+            xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+            yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+            height=500
+        )
+    )
+
+    mo.md(r"""
+### Interactive Graph Visualization
+
+*Network representation of knowledge edges. Hover over edges to see relation details.*
+""")
+    mo.ui.plotly(fig)
     return
 
 
