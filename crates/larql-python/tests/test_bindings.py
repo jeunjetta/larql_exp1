@@ -92,25 +92,38 @@ def vindex_path():
         embed_data.extend(vec.tolist())
     _write_f32(os.path.join(tmpdir, "embeddings.bin"), embed_data)
 
-    # down_meta.bin — binary format: per-feature records
-    # Each record: top_token_id(u32) + c_score(f32) + top_k * (token_id(u32) + logit(f32))
+    # down_meta.bin — binary format with header
+    # Header (16 bytes): magic, version, num_layers, top_k
+    # Per layer: num_features (u32), then fixed-size records
     top_k_count = 3
     record_size = 8 + top_k_count * 8
     meta_data = bytearray()
+
+    # Write header
+    MAGIC = 0x444D4554  # "DMET" in little-endian
+    meta_data.extend(struct.pack("<I", MAGIC))  # magic
+    meta_data.extend(struct.pack("<I", 1))  # version
+    meta_data.extend(struct.pack("<I", NUM_LAYERS))  # num_layers
+    meta_data.extend(struct.pack("<I", top_k_count))  # top_k
     for layer in range(NUM_LAYERS):
+        # Write num_features for this layer
+        meta_data.extend(struct.pack("<I", NUM_FEATURES))
+        
         for feat in range(NUM_FEATURES):
             # Leave last 4 features per layer empty (for INSERT tests)
             if feat >= NUM_FEATURES - 4:
-                record = b"\x00" * record_size
+                # Empty feature: top_token_id=0, c_score=0, top_k zeros
+                meta_data.extend(struct.pack("<If", 0, 0.0))
+                for k in range(top_k_count):
+                    meta_data.extend(struct.pack("<If", 0, 0.0))
             else:
                 token_id = (layer * NUM_FEATURES + feat) % VOCAB_SIZE
                 c_score = 0.5 + feat * 0.01
-                record = struct.pack("<If", token_id, c_score)
+                meta_data.extend(struct.pack("<If", token_id, c_score))
                 for k in range(top_k_count):
                     tid = (token_id + k + 1) % VOCAB_SIZE
                     logit = c_score - k * 0.1
-                    record += struct.pack("<If", tid, logit)
-            meta_data.extend(record)
+                    meta_data.extend(struct.pack("<If", tid, logit))
 
     with open(os.path.join(tmpdir, "down_meta.bin"), "wb") as f:
         f.write(meta_data)
