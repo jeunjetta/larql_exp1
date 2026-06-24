@@ -159,48 +159,89 @@ def _(mo):
 
 
 @app.cell
-def _(mo, model_input, extract_level, is_script_mode):
-    # Build content based on mode
-    if is_script_mode:
+def _(mo):
+    # Extract button for interactive simulation
+    extract_button = mo.ui.run_button(label="🚀 Simulate Extraction")
+    extract_button
+    return (extract_button,)
+
+
+@app.cell
+def _(mo, model_input, extract_level, extract_button, is_script_mode):
+    # Step-by-step extraction visualization
+    if extract_button.value or is_script_mode:
+        # Define extraction steps
+        _steps = [
+            {
+                "num": 1,
+                "name": "Loading model config",
+                "desc": "Parse `config.json`, identify architecture (Gemma 3, 34 layers, 2560 hidden), load layer band definitions.",
+                "output": "`index.json` created with model metadata",
+            },
+            {
+                "num": 2,
+                "name": "Extracting embeddings",
+                "desc": "Read `model.embed_tokens.weight` (262208 × 2560), write to `embeddings.bin` as f16.",
+                "output": "`embeddings.bin` (~640 MB)",
+            },
+            {
+                "num": 3,
+                "name": "Building gate vector index",
+                "desc": "For each layer, extract W_gate rows → `gate_vectors.bin`. Build KNN index for fast similarity search.",
+                "output": "`gate_vectors.bin` (~1.8 GB, mmap'd)",
+            },
+            {
+                "num": 4,
+                "name": "Extracting down-weight metadata",
+                "desc": "For each FFN feature, compute top token + contrast score. Write `down_meta.bin` (binary format).",
+                "output": "`down_meta.bin` (~150 MB) + `feature_labels.json`",
+            },
+            {
+                "num": 5,
+                "name": "Writing vindex to disk",
+                "desc": f"Assemble directory structure, write checksum. Final size depends on level: `{extract_level.value}` = ~3-10 GB.",
+                "output": f"VIndex ready at `output/{model_input.value.split('/')[-1]}-v2.vindex`",
+            },
+        ]
+
+        # Build step-by-step visualization
         _content = f"""
-## ⚙️ Extraction Process (Mock)
+## ⚙️ Extraction Process: Step-by-Step
 
 **Model:** `{model_input.value}`  
 **Level:** `{extract_level.value}`
 
-### Simulated Output:
+"""
+        
+        # Show each step with visual indicator
+        for _step in _steps:
+            _content += f"""
+### Step {_step['num']}/5: {_step['name']}
 
-```
-$ larql extract-index {model_input.value} --level {extract_level.value}
+**What happens:** {_step['desc']}
 
-[1/5] Loading model config... ✅
-[2/5] Extracting embeddings... ✅
-[3/5] Building gate vector index... ✅
-[4/5] Extracting down-weight metadata... ✅
-[5/5] Writing vindex to disk... ✅
-
-✅ VIndex created: output/gemma3-4b-v2.vindex
-   Size: ~3.2 GB (level: {extract_level.value})
-   Layers: 34
-   Hidden size: 2560
-   Vocab size: 262208
-```
-
-**What was extracted:**
-- `gate_vectors.bin` — W_gate rows for KNN search (~1.8 GB)
-- `embeddings.bin` — Token embedding matrix (~640 MB)
-- `down_meta.bin` — Per-feature output metadata (~150 MB)
-- `index.json` — Config and layer band definitions
-- `tokenizer.json` — Tokenizer for text → tokens
-- `relation_clusters.json` — Discovered relation types
+**Output:** {_step['output']}
 
 ---
+"""
+        
+        _content += f"""
+### ✅ Extraction Complete!
+
+**VIndex Statistics:**
+- **Size:** ~{"3.2 GB" if extract_level.value == "browse" else "6.1 GB" if extract_level.value == "inference" else "10.5 GB"} (level: `{extract_level.value}`)
+- **Layers:** 34
+- **Hidden size:** 2560
+- **Vocab size:** 262208
+- **Files created:** `gate_vectors.bin`, `embeddings.bin`, `down_meta.bin`, `index.json`, `tokenizer.json`
+
+**Next:** Run `DESCRIBE 'France'` to explore what the model knows!
 """
     else:
         _content = f"""
 ## ⚙️ Extraction Process
 
-**Model:** `{model_input.value}`  
+**Model:** `{model_input.value}` 
 **Level:** `{extract_level.value}`
 
 ### CLI Command:
@@ -222,13 +263,13 @@ larql.extract(
 )
 ```
 
-**Note:** Extraction requires the full model weights (~10-30 GB download).  
+**Note:** Extraction requires the full model weights (~10-30 GB download). 
 Run `notebooks/setup.py` to download a pre-built vindex instead.
 
 ---
 """
     
-    # Display content outside the conditional
+    # Display content
     mo.md(_content)
     return
 
