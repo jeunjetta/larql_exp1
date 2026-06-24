@@ -8,7 +8,7 @@
 
 ### 1. Enhance Existing Notebooks (High Priority)
 Current notebooks exist but need to be more educational:
-- [ ] `00_what_is_larql.py` - Add interactive examples, LLM syntax demos
+- [x] `00_what_is_larql.py` - Add interactive examples, LLM syntax demos ✅ (added mock DESCRIBE demo 2026-06-25)
 - [ ] `01_extract_index.py` - Add step-by-step extraction visualization
 - [ ] `02_graph_structure.py` - Add interactive graph exploration
 - [ ] `describe_explorer.py` - Add "Try it yourself" sections
@@ -17,9 +17,9 @@ Current notebooks exist but need to be more educational:
 - [ ] `compile_knowledge.py` - Add before/after compile visualization
 
 ### 2. Create Missing Core Concept Notebooks (High Priority)
-- [ ] `03_lql_syntax.py` - LQL language tutorial (DESCRIBE, WALK, SELECT syntax)
-- [ ] `04_mutation_basics.py` - INSERT/DELETE/UPDATE tutorial
-- [ ] `05_patches.py` - Patch system tutorial (BEGIN PATCH, SAVE PATCH)
+- [x] `03_lql_syntax.py` - LQL language tutorial (DESCRIBE, WALK, SELECT syntax) ✅ (created + script-mode verified 2026-06-25)
+- [x] `04_mutation_basics.py` - INSERT/DELETE/UPDATE tutorial ✅ (created + script-mode verified 2026-06-25)
+- [x] `05_patches.py` - Patch system tutorial (BEGIN PATCH, SAVE PATCH) ✅ (created + script-mode verified 2026-06-25)
 - [ ] `06_vindex_format.py` - Vindex file format deep dive
 - [ ] `07_extraction_levels.py` - Browse vs Inference vs All levels
 
@@ -41,9 +41,12 @@ Only 5 of 43 notebooks have MoLab badges. Need to add to remaining 38.
 
 | Notebook | Educational? | Interactive? | MoLab Badge? | Script Mode? |
 |----------|-------------|-------------|--------------|--------------|
-| `00_what_is_larql.py` | Partial | No | No | Unknown |
+| `00_what_is_larql.py` | ✅ Enhanced | ✅ Yes (DESCRIBE demo) | ✅ Yes | ✅ Verified |
 | `01_extract_index.py` | Partial | No | No | Unknown |
 | `02_graph_structure.py` | Partial | No | No | Unknown |
+| `03_lql_syntax.py` | ✅ Yes | ✅ Yes (dropdown) | ✅ Yes | ✅ Verified |
+| `04_mutation_basics.py` | ✅ Yes | ✅ Yes (dropdown) | ✅ Yes | ✅ Verified |
+| `05_patches.py` | ✅ Yes | ✅ Yes (dropdown) | ✅ Yes | ✅ Verified |
 | `describe_explorer.py` | Yes | Partial | Yes | Yes |
 | `walk_knowledge.py` | Yes | Partial | Yes | Unknown |
 | `inference_predict.py` | Yes | Partial | Yes | Unknown |
