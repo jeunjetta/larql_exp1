@@ -105,7 +105,7 @@ def _(mo):
 @app.cell
 def _(entity_input, layer_start, layer_end, verbose_toggle, is_script_mode, mo, np, Path):
     # Build mock data for script mode or when vindex not available
-    if is_script_mode or True:  # Always use mock for demo (avoids 3GB load)
+    if is_script_mode or not _setup.get("vindex_available", False):  # Always use mock for demo (avoids 3GB load)
         # Mock DESCRIBE results
         mock_edges = [
             {"relation": "capital", "target": "Paris", "score": 1436.9, "layer": 27, "source": "probe"},

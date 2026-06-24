@@ -100,7 +100,7 @@ def _(prompt_input, top_k, compare_toggle, is_script_mode, mo, np, Path):
     # Build mock INFER results
     _md_content = ""
     
-    if is_script_mode or True:  # Always use mock for demo
+    if is_script_mode or not _setup.get("vindex_available", False):  # Always use mock for demo
         # Mock INFER results for "The capital of France is"
         mock_predictions = [
             {"token": "Paris", "probability": 0.9791, "rank": 1},

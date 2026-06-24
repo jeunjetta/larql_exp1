@@ -101,7 +101,7 @@ def _(prompt_input, top_k, walk_layers, is_script_mode, mo, np, Path):
     # Build mock WALK results
     _md_content = ""
     
-    if is_script_mode or True:  # Always use mock for demo
+    if is_script_mode or not _setup.get("vindex_available", False):  # Always use mock for demo
         # Mock WALK path: "The capital of France is" → Paris
         mock_walk_path = [
             {"step": 0, "layer": 14, "token": "Paris", "score": 0.97, "source": "gate_knn"},
