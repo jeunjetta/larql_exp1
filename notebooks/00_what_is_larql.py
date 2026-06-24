@@ -191,10 +191,9 @@ larql lql 'USE "gemma3-4b.vindex"; DESCRIBE "France";'
 
 
 @app.cell
-def _(mo, is_script_mode):
+def _(mo):
     mo.md(
-        r"""
-## 📚 What's Next?
+        r"""## 📚 What's Next?
 
 Explore these interactive notebooks:
 
@@ -205,6 +204,8 @@ Explore these interactive notebooks:
 5. **`verify_vindex.py`** — Validate a vindex structure
 
 ---
+
+[![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/jeunjetta/larql/blob/feature/marimo-notebooks/notebooks/00_what_is_larql.py)
 """
     )
     return

@@ -227,5 +227,13 @@ def _(mo):
     return
 
 
+@app.cell
+def _(mo):
+    mo.md(
+        r"""[![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/jeunjetta/larql/blob/feature/marimo-notebooks/notebooks/describe_explorer.py)
+"""
+    )
+    return
+
 if __name__ == "__main__":
     app.run()
