@@ -3,6 +3,7 @@
 # dependencies = [
 #     "marimo",
 #     "huggingface_hub",
+#     "numpy",
 # ]
 # ///
 
@@ -11,7 +12,7 @@
 
 import marimo
 
-__generated_with = "0.23.10"
+__generated_with = "0.23.9"
 app = marimo.App(width="medium")
 
 
@@ -53,7 +54,9 @@ def _(mo, Path):
         r"""
 # ⚙️ LARQL Setup & Data Provisioning
 
-*Download the vindex data needed by other notebooks. Run this FIRST before using 
+[![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/jeunjetta/larql/blob/feature/marimo-notebooks/notebooks/setup.py)
+
+*Download the vindex data needed by other notebooks. Run this FIRST before using
 notebooks that work with real model data.*
 
 ---
