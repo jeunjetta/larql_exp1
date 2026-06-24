@@ -149,6 +149,8 @@ Type an entity name below and click "Describe" to see mock results:
 @app.cell
 def _(mo, entity_input, describe_button):
     # Show mock DESCRIBE results
+    _content = ""
+
     if describe_button.value:
         _entity = entity_input.value or "France"
 
@@ -184,7 +186,7 @@ def _(mo, entity_input, describe_button):
         for rel, tgt, score, layer in _results:
             _rows += f"<tr><td>{rel}</td><td>{tgt}</td><td>{score:.2f}</td><td>{layer}</td></tr>"
 
-        mo.md(f"""
+        _content = f"""
 ### DESCRIBE "{_entity}" (Mock Results)
 
 **LQL:** `DESCRIBE "{_entity}";`
@@ -194,9 +196,11 @@ def _(mo, entity_input, describe_button):
 {_rows}
 
 *Note: These are mock results for demonstration. Real DESCRIBE queries load a vindex.*
-""")
+"""
     else:
-        mo.md('*Click "DESCRIBE" above to see mock results.*')
+        _content = '*Click "DESCRIBE" above to see mock results.*'
+
+    mo.md(_content)
     return
 
 
