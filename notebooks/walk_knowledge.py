@@ -39,6 +39,7 @@ def _(mo):
 *Learn how `WALK` traverses knowledge paths through the residual stream — finding multi-hop connections that `DESCRIBE` can't reach.*
 
 ---
+
 """
     )
     return
@@ -101,7 +102,6 @@ def _(mo):
 def _(prompt_input, top_k, walk_layers, is_script_mode, mo, np, Path):
     # Build mock WALK results
     _md_content = ""
-    _fig = None
     
     if is_script_mode or not _setup.get("vindex_available", False):  # Always use mock for demo
         # Mock WALK path: "The capital of France is" → Paris
@@ -117,8 +117,8 @@ def _(prompt_input, top_k, walk_layers, is_script_mode, mo, np, Path):
         _md_content = f"""
 ## 🚶 WALK Results for "{prompt_input.value}"
 
-**Prompt:** {prompt_input.value}  
-**Top-K:** {top_k.value}  
+**Prompt:** {prompt_input.value} 
+**Top-K:** {top_k.value} 
 **Layers:** {walk_layers.value}
 
 ### Walk Path:
@@ -126,7 +126,7 @@ def _(prompt_input, top_k, walk_layers, is_script_mode, mo, np, Path):
         
         for step in mock_walk_path[:top_k.value]:
             _md_content += f"""
-**Step {step['step']}** (Layer {step['layer']}):  
+**Step {step['step']}** (Layer {step['layer']}): 
 → Token: `{step['token']}` | Score: {step['score']:.3f} | Source: {step['source']}
 """
         
@@ -137,45 +137,14 @@ with increasing confidence (score) as it traversed the residual stream.
 ---
 
 ### 📈 Walk Path Visualization
+
+> 💡 Install `plotly` to see walk path visualization.
 """
-        
-        # Create Plotly visualization
-        try:
-            import plotly.graph_objects as go
-            
-            _layers = [step["layer"] for step in mock_walk_path[:top_k.value]]
-            _scores = [step["score"] for step in mock_walk_path[:top_k.value]]
-            _tokens = [step["token"] for step in mock_walk_path[:top_k.value]]
-            
-            _fig = go.Figure()
-            _fig.add_trace(go.Scatter(
-                x=_layers,
-                y=_scores,
-                mode="lines+markers+text",
-                text=_tokens,
-                textposition="top center",
-                line=dict(color="blue", width=2),
-                marker=dict(size=8, color="blue"),
-                name="Walk Path"
-            ))
-            
-            _fig.update_layout(
-                title="Walk Path Scores by Layer",
-                xaxis_title="Layer",
-                yaxis_title="Score (confidence)",
-                yaxis=dict(range=[0, 1.1]),
-                showlegend=False,
-                height=400,
-            )
-        except ImportError:
-            _md_content += "\n> 💡 Install `plotly` to see walk path visualization.\n"
     else:
         _md_content = "> 💡 Run in script mode or with mock data to see WALK results."
     
     # Display OUTSIDE if block (fixes branch-expression error)
     mo.md(_md_content)
-    if _fig:
-        mo.ui.plotly(_fig)
     return
 
 
@@ -200,6 +169,7 @@ WALK "Python is a" TOP 10 ALL LAYERS;
 ```
 
 ---
+
 """
     )
     return
@@ -237,6 +207,7 @@ Layer 27: "Paris" (0.999) ← Probe confirms
 ```
 
 ---
+
 """
     )
     return
@@ -256,6 +227,7 @@ def _(mo):
 **Next:** Try `inference_predict.py` to run full inference with `INFER`.
 
 ---
+
 """
     )
     return
@@ -268,6 +240,7 @@ def _(mo):
 """
     )
     return
+
 
 if __name__ == "__main__":
     app.run()
