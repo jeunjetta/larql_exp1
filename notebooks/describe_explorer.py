@@ -214,14 +214,39 @@ def _(mo):
         r"""
 ## 🎯 Try It Yourself
 
-1. Change the **Entity** text input above
-2. Adjust the **Layer Range** to explore different model depths
-3. Toggle **Verbose Mode** to see more/less detail
-4. Check the LQL syntax section for the SQL-like command
+### Basic Exercises:
 
-**Next:** Try `walk_knowledge.py` to traverse knowledge paths with `WALK`.
+1. **Change the Entity** to `"Einstein"`
+   - Expected: Edges about physics, Germany, relativity
+   - Observe: Which relations appear? Are they factual?
+
+2. **Adjust Layer Range** to `0–13` (early layers)
+   - Expected: Fewer, more generic edges
+   - Observe: How does layer depth affect knowledge specificity?
+
+3. **Toggle Verbose Mode** off
+   - Expected: Compact output (no relation labels)
+   - Observe: When would brief mode be useful?
+
+### Challenge Exercises:
+
+1. **Edge Case**: Try entity `"AI"` or `"artificial intelligence"`
+   - What happens?
+   - Why might some entities have fewer edges?
+
+2. **Cross-lingual**: Try `"France"` vs `"Francia"` (Spanish/Italian)
+   - Do you get the same edges?
+   - What does this tell you about the model's multilingual knowledge?
+
+### Observation Questions:
+
+- Which layers (early/middle/late) have the strongest knowledge edges?
+- Do relation labels make sense? (e.g., is `"capital"` a good label for France→Paris?)
+- How does `DESCRIBE` differ from a Wikipedia search?
 
 ---
+
+**Next:** Try `walk_knowledge.py` to traverse knowledge paths with `WALK`.
 """
     )
     return
