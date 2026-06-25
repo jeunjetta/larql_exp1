@@ -253,6 +253,31 @@ The model IS the database. Editing knowledge = editing weights.
 def _(mo):
     mo.md(
         r"""
+## 🔍 Before vs After COMPILE (Mock Demo)
+
+This table shows what changes before and after compiling.
+
+| Step | Action | Result |
+|------|--------|--------|
+| 1 | `INSERT ...` | Edge added to **patch** (overlay) |
+| 2 | `DESCRIBE "X"` | Returns base knowledge + patch overlay |
+| 3 | `COMPILE ...` | New vindex with **edited weights** |
+| 4 | `DESCRIBE "X"` (new vindex) | Returns **edited** knowledge |
+
+**Key benefit:** COMPILE creates a **standalone** vindex — no patch files needed at load time.
+
+*In script mode: imagine the table above represents the workflow. In interactive mode with a real vindex, you'd see actual DESCRIBE results change before/after COMPILE.*
+
+---
+"""
+    )
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(
+        r"""
 ## 🎯 Try It Yourself
 
 1. Change the **Mutation Type** dropdown above
