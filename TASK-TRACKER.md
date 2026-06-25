@@ -14,7 +14,7 @@ Current notebooks exist but need to be more educational:
 |- [x] `describe_explorer.py` - Add "Try it yourself" sections ✅ (enhanced with structured exercises 2026-06-26)
 |- [x] `walk_knowledge.py` - Add visualization of walk paths (Plotly line chart added 2026-06-25)
 |- [ ] `inference_predict.py` - Add side-by-side comparison (mock vs real) — PARTIALLY DONE (added Plotly visualization, enhanced "Try It Yourself" section with exercises and challenges)
-- [ ] `compile_knowledge.py` - Add before/after compile visualization
+|- [x] `compile_knowledge.py` - Add before/after compile visualization ✅ (added mock demo table 2026-06-26)
 
 ### 2. Create Missing Core Concept Notebooks (High Priority)
 - [x] `03_lql_syntax.py` - LQL language tutorial (DESCRIBE, WALK, SELECT syntax) ✅ (created + script-mode verified 2026-06-25)
