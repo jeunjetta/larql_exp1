@@ -10,7 +10,7 @@
 Current notebooks exist but need to be more educational:
 - [x] `00_what_is_larql.py` - Add interactive examples, LLM syntax demos ✅ (added mock DESCRIBE demo 2026-06-25)
 - [x] `01_extract_index.py` - Add step-by-step extraction visualization ✅ (added interactive step-by-step simulator 2026-06-25)
-- [ ] `02_graph_structure.py` - Add interactive graph exploration
+|- [x] `02_graph_structure.py` - Add interactive graph exploration (filters now connected to data, script mode fixed 2026-06-25)
 - [ ] `describe_explorer.py` - Add "Try it yourself" sections
 - [ ] `walk_knowledge.py` - Add visualization of walk paths
 - [ ] `inference_predict.py` - Add side-by-side comparison (mock vs real)
@@ -43,7 +43,7 @@ Only 5 of 43 notebooks have MoLab badges. Need to add to remaining 38.
 |----------|-------------|-------------|--------------|--------------|
 | `00_what_is_larql.py` | ✅ Enhanced | ✅ Yes (DESCRIBE demo) | ✅ Yes | ✅ Verified |
 | `01_extract_index.py` | ✅ Enhanced | ✅ Yes (step-by-step simulator) | ✅ Yes | ✅ Verified |
-| `02_graph_structure.py` | ✅ Enhanced | ✅ Yes (filters added, not yet connected) | ✅ Yes | ✅ Verified |
+| `02_graph_structure.py` | ✅ Enhanced | ✅ Yes (filters connected) | ✅ Yes | ✅ Verified |
 | `03_lql_syntax.py` | ✅ Yes | ✅ Yes (dropdown) | ✅ Yes | ✅ Verified |
 | `04_mutation_basics.py` | ✅ Yes | ✅ Yes (dropdown) | ✅ Yes | ✅ Verified |
 | `05_patches.py` | ✅ Yes | ✅ Yes (dropdown) | ✅ Yes | ✅ Verified |
