@@ -23,21 +23,21 @@ BRANCH = "feature/marimo-notebooks"
 BADGE_PATTERN = r"\[!\[Open in molab\]\(https://marimo\.io/molab-shield\.svg\)\]\(https://molab\.marimo\.io/github/[^)]+\)"
 
 
-def get_import_alias(content: str) -> str | None:
-    """Extract the variable name exported by the import cell."""
+def get_import_aliases(content: str) -> list[str]:
+    """Extract all variable names exported by the import cell."""
     # Find the first @app.cell that contains "import marimo"
     cells = re.split(r"^@app\.cell\s*$", content, flags=re.MULTILINE)
-
+    
     for cell in cells:
         if "import marimo" in cell:
             # Check if it returns something
             return_match = re.search(r"^\s*return\s+(.+?)\s*$", cell, flags=re.MULTILINE)
             if return_match:
                 vars_str = return_match.group(1)
-                # Handle "mo," or "marimo," or "mo, np" etc.
-                first_var = vars_str.split(",")[0].strip().strip(",")
-                return first_var
-    return None
+                # Handle "mo, np" or "go, mo, np, pd" etc.
+                aliases = [v.strip().strip(",") for v in vars_str.split(",")]
+                return aliases
+    return []
 
 
 def check_badge_in_cell(cell_content: str) -> tuple[bool, str | None]:
@@ -94,17 +94,17 @@ def audit_notebook(filepath: Path) -> dict:
         result["issues"].append(f"Badge branch incorrect (expected {BRANCH})")
 
     # Check alias matches import cell
-    import_alias = get_import_alias(content)
-    if import_alias:
+    import_aliases = get_import_aliases(content)
+    if import_aliases:
         # Find badge cells and check their alias
         cells = re.split(r"^@app\.cell\s*$", content, flags=re.MULTILINE)
         for cell in cells:
             has_badge, badge_alias = check_badge_in_cell(cell)
             if has_badge:
-                result["alias_matches"] = (badge_alias == import_alias)
+                result["alias_matches"] = badge_alias in import_aliases
                 if not result["alias_matches"]:
                     result["issues"].append(
-                        f"Badge alias mismatch: import returns '{import_alias}', "
+                        f"Badge alias mismatch: import returns {import_aliases}, "
                         f"badge cell uses '{badge_alias}'"
                     )
                 break

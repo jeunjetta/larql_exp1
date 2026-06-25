@@ -10,7 +10,7 @@
 
 import marimo
 
-__generated_with = "0.23.10"
+__generated_with = "0.23.9"
 app = marimo.App(width="medium")
 
 
@@ -21,6 +21,15 @@ def _():
     import pandas as pd
     import numpy as np
     return go, mo, np, pd
+
+
+@app.cell
+def _(mo):
+    mo.md(
+        r"""[![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/jeunjetta/larql/blob/feature/marimo-notebooks/notebooks/visualize_patch_diff.py)
+"""
+    )
+    return
 
 
 @app.cell
@@ -213,8 +222,6 @@ def _(mo, base_data, patch_data):
 - Do DELETE operations tend to target low-score features?
 - Do UPDATE operations boost scores? Why might this be useful?
 - How would you visualize an INSERT operation (not shown here)?
-
-[![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/jeunjetta/larql/blob/feature/marimo-notebooks/notebooks/visualize_patch_diff.py)
 """
     )
     return

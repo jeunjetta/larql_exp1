@@ -9,7 +9,7 @@
 
 import marimo
 
-__generated_with = "0.23.10"
+__generated_with = "0.23.9"
 app = marimo.App(width="medium")
 
 
@@ -19,6 +19,15 @@ def _():
     import plotly.graph_objects as go
     import numpy as np
     return go, mo, np
+
+
+@app.cell
+def _(mo):
+    mo.md(
+        r"""[![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/jeunjetta/larql/blob/feature/marimo-notebooks/notebooks/visualize_walk_path.py)
+"""
+    )
+    return
 
 
 @app.cell
@@ -234,8 +243,6 @@ def _(mo, walk_path):
 ### Observation Questions:
 - Do certain entities appear repeatedly across layers?
 - How does the score distribution change across layers?
-
-[![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/jeunjetta/larql/blob/feature/marimo-notebooks/notebooks/visualize_walk_path.py)
 """
     )
     return
