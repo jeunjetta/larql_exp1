@@ -83,13 +83,31 @@ def _(mo):
 
 
 @app.cell
-def _(mo):
-    # Layer range filter (standalone UI)
+def _(mo, is_script_mode):
+    # Build FULL mock graph data (no filtering here)
+    mock_edges = [
+        {"relation": "capital", "target": "Paris", "score": 1436.9, "layer": 27},
+        {"relation": "language", "target": "French", "score": 35.2, "layer": 24},
+        {"relation": "continent", "target": "Europe", "score": 14.4, "layer": 25},
+        {"relation": "borders", "target": "Spain", "score": 13.3, "layer": 18},
+        {"relation": "currency", "target": "Euro", "score": 8.7, "layer": 22},
+        {"relation": "capital", "target": "Paris", "score": 1200.5, "layer": 26},
+        {"relation": "language", "target": "French", "score": 42.1, "layer": 23},
+        {"relation": "neighbor", "target": "Italy", "score": 11.2, "layer": 20},
+    ]
+    return (mock_edges,)
+
+
+@app.cell
+def _(mo, mock_edges):
+    # Layer range filter (depends on mock_edges for min/max)
+    _min_layer = min(e["layer"] for e in mock_edges)
+    _max_layer = max(e["layer"] for e in mock_edges)
     layer_range = mo.ui.range_slider(
-        start=0,
-        stop=33,
+        start=_min_layer,
+        stop=_max_layer,
         step=1,
-        value=(0, 33),
+        value=(_min_layer, _max_layer),
         label="📊 Layer Range Filter"
     )
     layer_range
@@ -110,29 +128,31 @@ def _(mo, mock_edges):
 
 
 @app.cell
-def _(mo, entity_input, is_script_mode):
-    # Build mock graph data (FULL list, no filtering here)
-    mock_edges = [
-        {"relation": "capital", "target": "Paris", "score": 1436.9, "layer": 27},
-        {"relation": "language", "target": "French", "score": 35.2, "layer": 24},
-        {"relation": "continent", "target": "Europe", "score": 14.4, "layer": 25},
-        {"relation": "borders", "target": "Spain", "score": 13.3, "layer": 18},
-        {"relation": "currency", "target": "Euro", "score": 8.7, "layer": 22},
-    ]
+def _(mo, entity_input, mock_edges, layer_range, relation_filter):
+    # Apply filters to mock_edges
+    _filtered = mock_edges
+    
+    # Filter by layer range
+    _layer_start, _layer_end = layer_range.value
+    _filtered = [e for e in _filtered if _layer_start <= e["layer"] <= _layer_end]
+    
+    # Filter by relation type
+    if relation_filter.value != "All":
+        _filtered = [e for e in _filtered if e["relation"] == relation_filter.value]
     
     # Build content string
     _content = f"""
 ## 📊 Graph View: Edges for "{entity_input.value}"
 
-**Entity:** `{entity_input.value}`  
-**Edges found:** {len(mock_edges)}
+**Entity:** `{entity_input.value}` 
+**Edges found:** {len(mock_edges)} total, {len(_filtered)} after filtering
 
 ### Edge Structure:
 
 | Relation | Target | Score | Layer | Source |
 |-----------|--------|-------|-------|--------|
 """
-    for e in mock_edges:
+    for e in _filtered:
         _content += f"| **{e['relation']}** | {e['target']} | {e['score']:.1f} | L{e['layer']} | probe |\n"
 
     _content += r"""
@@ -146,23 +166,30 @@ def _(mo, entity_input, is_script_mode):
 - `source` — How this edge was discovered (probe, explicit, ...)
 
 """
-
+    
     # Display content outside conditional
     mo.md(_content)
     return
 
 @app.cell
-def _(mo, entity_input, mock_edges):
-    # Build networkx graph for visualization
+def _(mo, entity_input, mock_edges, layer_range, relation_filter):
+    # Build networkx graph for visualization (computes filtered data independently)
     import networkx as nx
     import plotly.graph_objects as go
-
+    
+    # Apply filters to get _filtered
+    _filtered = mock_edges
+    _layer_start, _layer_end = layer_range.value
+    _filtered = [e for e in _filtered if _layer_start <= e["layer"] <= _layer_end]
+    if relation_filter.value != "All":
+        _filtered = [e for e in _filtered if e["relation"] == relation_filter.value]
+    
     G = nx.DiGraph()
-
-    # Add nodes and edges from mock data
+    
+    # Add nodes and edges from FILTERED data
     source_entity = entity_input.value
     G.add_node(source_entity, type='source')
-    for _e in mock_edges:
+    for _e in _filtered:
         target = _e['target']
         G.add_node(target, type='target')
         G.add_edge(source_entity, target,
