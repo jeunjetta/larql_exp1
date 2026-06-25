@@ -3,6 +3,7 @@
 # dependencies = [
 #     "marimo",
 #     "numpy>=2.0.0",
+#     "plotly>=5.0.0",
 # ]
 # ///
 
@@ -100,6 +101,7 @@ def _(mo):
 def _(prompt_input, top_k, walk_layers, is_script_mode, mo, np, Path):
     # Build mock WALK results
     _md_content = ""
+    _fig = None
     
     if is_script_mode or not _setup.get("vindex_available", False):  # Always use mock for demo
         # Mock WALK path: "The capital of France is" → Paris
@@ -129,14 +131,51 @@ def _(prompt_input, top_k, walk_layers, is_script_mode, mo, np, Path):
 """
         
         _md_content += r"""
-**Interpretation:** The walk successfully found "Paris" through multiple layers,  
+**Interpretation:** The walk successfully found "Paris" through multiple layers, 
 with increasing confidence (score) as it traversed the residual stream.
 
 ---
+
+### 📈 Walk Path Visualization
 """
+        
+        # Create Plotly visualization
+        try:
+            import plotly.graph_objects as go
+            
+            _layers = [step["layer"] for step in mock_walk_path[:top_k.value]]
+            _scores = [step["score"] for step in mock_walk_path[:top_k.value]]
+            _tokens = [step["token"] for step in mock_walk_path[:top_k.value]]
+            
+            _fig = go.Figure()
+            _fig.add_trace(go.Scatter(
+                x=_layers,
+                y=_scores,
+                mode="lines+markers+text",
+                text=_tokens,
+                textposition="top center",
+                line=dict(color="blue", width=2),
+                marker=dict(size=8, color="blue"),
+                name="Walk Path"
+            ))
+            
+            _fig.update_layout(
+                title="Walk Path Scores by Layer",
+                xaxis_title="Layer",
+                yaxis_title="Score (confidence)",
+                yaxis=dict(range=[0, 1.1]),
+                showlegend=False,
+                height=400,
+            )
+        except ImportError:
+            _md_content += "\n> 💡 Install `plotly` to see walk path visualization.\n"
+    else:
+        _md_content = "> 💡 Run in script mode or with mock data to see WALK results."
     
     # Display OUTSIDE if block (fixes branch-expression error)
     mo.md(_md_content)
+    if _fig:
+        mo.ui.plotly(_fig)
     return
 
 
