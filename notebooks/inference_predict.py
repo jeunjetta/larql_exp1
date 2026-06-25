@@ -3,6 +3,7 @@
 # dependencies = [
 #     "marimo",
 #     "numpy>=2.0.0",
+#     "plotly",
 # ]
 # ///
 
@@ -99,6 +100,7 @@ def _(mo):
 def _(prompt_input, top_k, compare_toggle, is_script_mode, mo, np, Path):
     # Build mock INFER results
     _md_content = ""
+    _fig = None
     
     if is_script_mode or not _setup.get("vindex_available", False):  # Always use mock for demo
         # Mock INFER results for "The capital of France is"
@@ -112,8 +114,8 @@ def _(prompt_input, top_k, compare_toggle, is_script_mode, mo, np, Path):
         _md_content = f"""
 ## 🤖 INFER Results for "{prompt_input.value}"
 
-**Prompt:** {prompt_input.value}  
-**Top-K:** {top_k.value}  
+**Prompt:** {prompt_input.value} 
+**Top-K:** {top_k.value} 
 **Mode:** {"Compare (with probabilities)" if compare_toggle.value else "Simple"}
 
 ### Predictions:
@@ -122,23 +124,56 @@ def _(prompt_input, top_k, compare_toggle, is_script_mode, mo, np, Path):
         for pred in mock_predictions[:top_k.value]:
             if compare_toggle.value:
                 _md_content += f"""
-**{pred['rank']}. {pred['token']}**  
+**{pred['rank']}. {pred['token']}** 
    Probability: {pred['probability']:.2%} ({pred['probability']:.4f})
 """
             else:
                 _md_content += f"**{pred['rank']}. {pred['token']}**\n"
         
         _md_content += r"""
-**Interpretation:** The model confidently predicts "Paris" (97.91%),  
+**Interpretation:** The model confidently predicts "Paris" (97.91%), 
 which is the correct answer. The other tokens have very low probability.
 
 ---
 """
+        
+        # Create Plotly bar chart visualization
+        import plotly.graph_objects as go
+        
+        tokens = [p["token"] for p in mock_predictions[:top_k.value]]
+        probs = [p["probability"] for p in mock_predictions[:top_k.value]]
+        
+        _fig = go.Figure(go.Bar(
+            x=probs,
+            y=tokens,
+            orientation='h',
+            text=[f"{p:.1%}" for p in probs],
+            textposition='auto',
+            marker_color='lightblue',
+            hovertemplate='<b>%{y}</b><br>Probability: %{x:.2%}<extra></extra>'
+        ))
+        
+        _fig.update_layout(
+            title="Token Probabilities",
+            xaxis_title="Probability",
+            yaxis_title="Token",
+            yaxis=dict(autorange="reversed"),  # Highest rank at top
+            height=300,
+            margin=dict(l=20, r=20, t=40, b=20)
+        )
     
     # Display OUTSIDE if block (fixes branch-expression error)
     mo.md(_md_content)
+    
+    # Pre-compute dummy figure if needed, then display unconditionally
+    if _fig is None:
+        import plotly.graph_objects as go
+        _fig = go.Figure()
+        _fig.update_layout(title="No visualization available", height=200)
+    
+    mo.ui.plotly(_fig)
+    
     return
-
 
 @app.cell
 def _(mo):
@@ -210,10 +245,36 @@ def _(mo):
         r"""
 ## 🎯 Try It Yourself
 
-1. Change the **Prompt** text input above
-2. Adjust **Top-K** to see more/fewer predictions
-3. Toggle **Compare Mode** to see token probabilities
-4. Check the LQL syntax section for the SQL-like command
+### Basic Exercises:
+1. Change the **Prompt** to: `"Einstein developed"`
+   - Expected: "relativity", "the theory", "physics"
+   - Observe: How do probabilities change?
+
+2. Change the **Prompt** to: `"Python is a"`
+   - Expected: "programming", "language", "versatile"
+   - Observe: Is the model confident?
+
+3. Adjust **Top-K** to 5-10
+   - See more alternative predictions
+   - Notice: How quickly do probabilities drop off?
+
+### Challenge Exercises:
+1. **Math prompt**: `"2 + 2 ="` 
+   - Does the model give the correct answer?
+   - What's the probability of the correct token?
+
+2. **Ambiguous prompt**: `"The bank is"`
+   - What are the top predictions?
+   - How does context affect predictions?
+
+3. **Long prompt**: `"The capital of France is Paris. The capital of Germany is"`
+   - Does the model continue the pattern?
+   - What's the prediction?
+
+### Observation Questions:
+- When is the model most confident (highest probability)?
+- When does the model "hesitate" (multiple tokens with similar probabilities)?
+- How does prompt phrasing affect predictions?
 
 **Next:** Try `compile_knowledge.py` to learn how to edit and recompile knowledge with `COMPILE`.
 
