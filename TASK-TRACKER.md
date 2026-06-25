@@ -24,7 +24,7 @@ Current notebooks exist but need to be more educational:
 |- [x] `07_extraction_levels.py` - Browse vs Inference vs All levels ✅ (created 2026-06-25)
 
 ### 3. Create Interactive Visualization Notebooks (Medium Priority)
-- [ ] `visualize_gate_knn.py` - Interactive gate KNN exploration
+- [x] `visualize_gate_knn.py` - Interactive gate KNN exploration ✅ (created 2026-06-26)
 - [ ] `visualize_walk_path.py` - Animated walk path visualization
 - [ ] `visualize_patch_diff.py` - Visual diff of patched vindex
 
@@ -53,6 +53,7 @@ Only 5 of 43 notebooks have MoLab badges. Need to add to remaining 38.
 | `walk_knowledge.py` | Yes | Partial | ✅ Yes | Unknown |
 | `inference_predict.py` | Yes | ✅ Yes (Plotly bar chart + exercises) | ✅ Yes | ✅ Verified |
 | `compile_knowledge.py` | Yes | Partial | ✅ Yes | Unknown |
+| `visualize_gate_knn.py` | ✅ Yes | ✅ Yes (bar chart + histogram) | ✅ Yes | ✅ Verified |
 | `setup.py` | N/A | N/A | No | Yes |
 
 ## Educational Notebook Checklist
