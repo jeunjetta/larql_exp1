@@ -12,7 +12,7 @@ Current notebooks exist but need to be more educational:
 - [x] `01_extract_index.py` - Add step-by-step extraction visualization ✅ (added interactive step-by-step simulator 2026-06-25)
 |- [x] `02_graph_structure.py` - Add interactive graph exploration (filters now connected to data, script mode fixed 2026-06-25)
 - [ ] `describe_explorer.py` - Add "Try it yourself" sections
-- [ ] `walk_knowledge.py` - Add visualization of walk paths
+|- [x] `walk_knowledge.py` - Add visualization of walk paths (Plotly line chart added 2026-06-25)
 - [ ] `inference_predict.py` - Add side-by-side comparison (mock vs real)
 - [ ] `compile_knowledge.py` - Add before/after compile visualization
 
