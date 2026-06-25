@@ -11,7 +11,7 @@ Current notebooks exist but need to be more educational:
 - [x] `00_what_is_larql.py` - Add interactive examples, LLM syntax demos ✅ (added mock DESCRIBE demo 2026-06-25)
 - [x] `01_extract_index.py` - Add step-by-step extraction visualization ✅ (added interactive step-by-step simulator 2026-06-25)
 |- [x] `02_graph_structure.py` - Add interactive graph exploration (filters now connected to data, script mode fixed 2026-06-25)
-- [ ] `describe_explorer.py` - Add "Try it yourself" sections
+|- [x] `describe_explorer.py` - Add "Try it yourself" sections ✅ (enhanced with structured exercises 2026-06-26)
 |- [x] `walk_knowledge.py` - Add visualization of walk paths (Plotly line chart added 2026-06-25)
 |- [ ] `inference_predict.py` - Add side-by-side comparison (mock vs real) — PARTIALLY DONE (added Plotly visualization, enhanced "Try It Yourself" section with exercises and challenges)
 - [ ] `compile_knowledge.py` - Add before/after compile visualization
