@@ -13,7 +13,7 @@ Current notebooks exist but need to be more educational:
 |- [x] `02_graph_structure.py` - Add interactive graph exploration (filters now connected to data, script mode fixed 2026-06-25)
 - [ ] `describe_explorer.py` - Add "Try it yourself" sections
 |- [x] `walk_knowledge.py` - Add visualization of walk paths (Plotly line chart added 2026-06-25)
-- [ ] `inference_predict.py` - Add side-by-side comparison (mock vs real)
+|- [ ] `inference_predict.py` - Add side-by-side comparison (mock vs real) — PARTIALLY DONE (added Plotly visualization, enhanced "Try It Yourself" section with exercises and challenges)
 - [ ] `compile_knowledge.py` - Add before/after compile visualization
 
 ### 2. Create Missing Core Concept Notebooks (High Priority)
@@ -51,7 +51,7 @@ Only 5 of 43 notebooks have MoLab badges. Need to add to remaining 38.
 | `07_extraction_levels.py` | ✅ Yes | ✅ Yes (dropdown) | ✅ Yes | ✅ Verified |
 | `describe_explorer.py` | Yes | Partial | ✅ Yes | Yes |
 | `walk_knowledge.py` | Yes | Partial | ✅ Yes | Unknown |
-| `inference_predict.py` | Yes | Partial | ✅ Yes | Unknown |
+| `inference_predict.py` | Yes | ✅ Yes (Plotly bar chart + exercises) | ✅ Yes | ✅ Verified |
 | `compile_knowledge.py` | Yes | Partial | ✅ Yes | Unknown |
 | `setup.py` | N/A | N/A | No | Yes |
 
