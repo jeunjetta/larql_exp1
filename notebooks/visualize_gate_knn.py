@@ -18,7 +18,7 @@ This notebook teaches the gate KNN concept by allowing users to:
 """
 
 import marimo as mo
-__generated_with = "0.23.9"
+__generated_with = "0.23.11"
 app = mo.App(width="medium")
 
 
