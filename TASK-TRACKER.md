@@ -31,6 +31,9 @@
 - [x] All 14 notebooks now have MoLab badges pointing to `jeunjetta/larql/blob/feature/marimo-notebooks/`
 - [x] `scripts/badge-audit.py` created for automated auditing (2026-06-25)
 
+### 6. Expand Notebook Suite (Medium Priority) 🚧 IN PROGRESS
+- [x] `08_multi_modal.py` - Multi-modal LQL tutorial (image + text alignment) ✅ (created 2026-06-27)
+
 ### 5. Create Batch Scripts (Low Priority) ✅ COMPLETE
 - [x] `scripts/batch-script-mode.py` - Automated script-mode testing ✅ (created 2026-06-25)
 - [x] `scripts/badge-audit.py` - Automated MoLab badge auditing ✅ (created 2026-06-25)
@@ -54,6 +57,7 @@
 | `visualize_gate_knn.py` | ✅ Yes | ✅ Yes (bar chart + histogram) | ✅ Yes | ✅ Verified |
 | `visualize_walk_path.py` | ✅ Yes | ✅ Yes (animated scatter) | ✅ Yes | ✅ Verified |
 | `visualize_patch_diff.py` | ✅ Yes | ✅ Yes (table + histogram) | ✅ Yes | ✅ Verified |
+| `08_multi_modal.py` | ✅ Yes | ✅ Yes (similarity heatmap) | ✅ Yes | ✅ Verified |
 | `setup.py` | N/A | N/A | No | ✅ Yes |
 | `_vindex_helper.py` | N/A | N/A | No | N/A (helper module) |
 
