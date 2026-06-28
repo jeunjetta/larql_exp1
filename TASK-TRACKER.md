@@ -80,15 +80,15 @@ Each educational notebook should have:
 - [x] **MoLab badge audit**: 18/18 notebooks have badges, all point to correct branch, all alias matches
 - [x] **Validation gate**: `marimo check` passed (0 critical/error, 81 non-critical warnings)
 - [x] **Script-mode tests**: 18/18 notebooks passed (0 failures)
-- [x] **Python binding tests**: 46 passed, 5 failed (asserting specific values - should check types/structure per skill), 5 skipped
+- [x] **Python binding tests**: 51 passed, 0 failed, 3 skipped (5 tests fixed - now check types/structure per skill)
 - [x] **Root-level tests**: 42 passed (vindex now available via symlink)
 - [x] **Git status**: clean, 0 ahead/0 behind `origin/feature/marimo-notebooks`
 
 ## Next Steps
 
-1. **Fix Python binding tests** - 5 tests fail due to asserting specific values (e.g., `result[0][0] == "Paris"`). Per `larql-build-and-test` skill: "Do NOT assert specific values — probe data varies across vindex versions and rebuilds. DO check types and structure."
+1. **✅ Fixed Python binding tests** - 5 tests now check types/structure instead of specific values (per `larql-build-and-test` skill)
 2. **Keep documentation updated** - TASK-TRACKER.md now reflects 18 notebooks + vindex availability (updated 2026-06-29)
-3. **Monitor cron job execution** - All gates passing, test coverage improved (42/42 root-level tests now pass)
+3. **Monitor cron job execution** - All gates passing, test coverage improved (51/51 Python binding tests now pass)
 
 ## References
 - Skill: `larql-build-and-test` (build/test instructions)
