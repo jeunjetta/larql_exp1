@@ -80,7 +80,7 @@ Each educational notebook should have:
 - [x] **MoLab badge audit**: 18/18 notebooks have badges, all point to correct branch, all alias matches
 - [x] **Validation gate**: `marimo check` passed (0 critical/error, 81 non-critical warnings)
 - [x] **Script-mode tests**: 18/18 notebooks passed (0 failures)
-- [x] **Python binding tests**: 51 passed, 0 failed, 3 skipped (5 tests fixed - now check types/structure per skill)
+|- [x] **Python binding tests**: 50 passed, 0 failed, 6 skipped (3 MLX tests always skip, 3 need specific vindex features)
 - [x] **Root-level tests**: 42 passed (vindex now available via symlink)
 - [x] **Git status**: clean, 0 ahead/0 behind `origin/feature/marimo-notebooks`
 
