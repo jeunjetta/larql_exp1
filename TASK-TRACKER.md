@@ -88,7 +88,7 @@ Each educational notebook should have:
 
 1. **✅ Fixed Python binding tests** - 5 tests now check types/structure instead of specific values (per `larql-build-and-test` skill)
 2. **Keep documentation updated** - TASK-TRACKER.md now reflects 18 notebooks + vindex availability (updated 2026-06-29)
-3. **Monitor cron job execution** - All gates passing, test coverage improved (51/51 Python binding tests now pass)
+3. **Monitor cron job execution** - All gates passing, test coverage: 50 passed, 6 skipped (56 total) for Python bindings
 
 ## References
 - Skill: `larql-build-and-test` (build/test instructions)
