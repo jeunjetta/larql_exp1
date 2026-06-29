@@ -74,14 +74,14 @@ Each educational notebook should have:
 - [x] Visualizations (plots, graphs, tables)
 - [x] MoLab badge at bottom of README
 
-## Cron Job Verification (Last Run: 2026-06-29)
+## Cron Job Verification (Last Run: 2026-06-30)
 
-- [x] **Version check**: marimo 0.23.9 matches `__generated_with` in all 18 notebooks
+- [x] **Version check**: marimo 0.23.11, bumped all 18 notebooks from 0.23.9 to 0.23.11
 - [x] **MoLab badge audit**: 18/18 notebooks have badges, all point to correct branch, all alias matches
-- [x] **Validation gate**: `marimo check` passed (0 critical/error, 81 non-critical warnings)
+- [x] **Validation gate**: `marimo check` passed (0 critical/error, 80 non-critical warnings)
 - [x] **Script-mode tests**: 18/18 notebooks passed (0 failures)
-|- [x] **Python binding tests**: 50 passed, 0 failed, 6 skipped (3 MLX tests always skip, 3 need specific vindex features)
-- [x] **Root-level tests**: 42 passed (vindex now available via symlink)
+- [x] **Python binding tests**: 50 passed, 0 failed, 6 skipped (3 MLX tests always skip, 3 need specific vindex features)
+- [x] **Root-level tests**: 42 passed (vindex available via symlink)
 - [x] **Git status**: clean, 0 ahead/0 behind `origin/feature/marimo-notebooks`
 
 ## Next Steps
