@@ -53,6 +53,55 @@ This notebook demonstrates these deployment patterns with mock examples.
 
 @app.cell
 def _(mo):
+    mo.md(r"""## 🎛️ Deployment Tradeoff Explorer""")
+    return
+
+
+@app.cell
+def _(mo):
+    strategy_select = mo.ui.dropdown(
+        options=["Standalone", "Sliced (Attention on Client)", "MoE Sharding"],
+        value="Standalone",
+        label="Deployment Strategy",
+    )
+    strategy_select
+    return (strategy_select,)
+
+
+@app.cell
+def _(mo, strategy_select, np):
+    mo.md(r"""### 📊 Performance Estimates (Mock Data)""")
+    
+    strategy = strategy_select.value
+    
+    if strategy == "Standalone":
+        latency = "120ms"
+        cost = "$0.001 / 1K tokens"
+        scalability = "Single machine (vertical scaling)"
+        _details = "Simple to deploy, but requires full model weights on one machine."
+    elif strategy == "Sliced (Attention on Client)":
+        latency = "45ms (client) + 80ms (server)"
+        cost = "$0.0007 / 1K tokens"
+        scalability = "Client + Server (horizontal scaling)"
+        _details = "Reduces client RAM by ~60%, but adds network round-trip."
+    else:  # MoE Sharding
+        latency = "30ms (parallel experts)"
+        cost = "$0.0005 / 1K tokens"
+        scalability = "Distributed across 8 machines"
+        _details = "Best for large MoE models (e.g., GPT-OSS). Requires orchestration."
+    
+    _table = mo.ui.table([
+        {"Metric": "Latency", "Value": latency},
+        {"Metric": "Cost (Mock)", "Value": cost},
+        {"Metric": "Scalability", "Value": scalability},
+        {"Metric": "Notes", "Value": _details},
+    ])
+    _table
+    return
+
+
+@app.cell
+def _(mo):
     mo.md(r"""## 🖥️ Server Deployment with `larql serve`""")
     return
 

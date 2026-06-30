@@ -33,7 +33,7 @@
 
 ### 6. Expand Notebook Suite (Medium Priority) ✅ COMPLETE
 - [x] `08_multi_modal.py` - Multi-modal LQL tutorial (image + text alignment) ✅ (created 2026-06-27)
-- [x] `09_deployment.py` - Deployment architecture (serve, slice, WebSocket, MoE sharding) ✅ (created 2026-06-28)
+|- [x] `09_deployment.py` - Deployment architecture (serve, slice, WebSocket, MoE sharding) ✅ (enhanced with interactive Tradeoff Explorer 2026-06-30)
 
 ### 5. Create Batch Scripts (Low Priority) ✅ COMPLETE
 - [x] `scripts/batch-script-mode.py` - Automated script-mode testing ✅ (created 2026-06-25)
