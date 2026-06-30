@@ -31,9 +31,9 @@
 - [x] All 18 notebooks now have MoLab badges pointing to `jeunjetta/larql/blob/feature/marimo-notebooks/`
 - [x] `scripts/badge-audit.py` created for automated auditing (2026-06-25)
 
-### 6. Expand Notebook Suite (Medium Priority) ✅ COMPLETE
-- [x] `08_multi_modal.py` - Multi-modal LQL tutorial (image + text alignment) ✅ (created 2026-06-27)
-|- [x] `09_deployment.py` - Deployment architecture (serve, slice, WebSocket, MoE sharding) ✅ (enhanced with interactive Tradeoff Explorer 2026-06-30)
+### 2. Continue enhancing educational content ✅ COMPLETE
+- [x] **✅ Add exercises to `04_mutation_basics.py`** - Added Basic/Challenge/Observation exercises (2026-07-01)
+- [x] **✅ Add exercises to `05_patches.py`** - Added Basic/Challenge/Observation exercises (2026-07-01)
 
 ### 5. Create Batch Scripts (Low Priority) ✅ COMPLETE
 - [x] `scripts/batch-script-mode.py` - Automated script-mode testing ✅ (created 2026-06-25)
@@ -86,11 +86,23 @@ Each educational notebook should have:
 
 ## Next Steps
 
-1. **✅ Add "Try it yourself" sections** - `03_lql_syntax.py` now has exercises (Basic/Challenge/Observation)
-2. **Continue enhancing educational content** - Add exercises to `04_mutation_basics.py`, `05_patches.py`
-3. **Monitor cron job execution** - All gates passing, test coverage: 50 passed, 6 skipped (56 total) for Python bindings
+1. **✅ All "Try it yourself" sections complete** - 03, 04, 05 all have Basic/Challenge/Observation exercises
+2. **Monitor cron job execution** - All gates passing, test coverage: 50 passed, 6 skipped (56 total) for Python bindings
+3. **Consider adding more interactive visualizations** - e.g., patch diff animation, multi-patch stacking visualization
+
+## Cron Job Verification (Last Run: 2026-07-01)
+
+- [x] **Version check**: marimo 0.23.9, notebooks at 0.23.9 (match - no bump needed)
+- [x] **MoLab badge audit**: 18/18 notebooks have badges, all point to correct branch (`jeunjetta/larql/blob/feature/marimo-notebooks/`)
+- [x] **Validation gate**: `marimo check` passed (0 critical/error, 85 `markdown-indentation` warnings)
+- [x] **Script-mode tests**: 18/18 notebooks passed (0 failures) - verified via `scripts/batch-script-mode.py`
+- [x] **Python binding tests**: 50 passed, 6 skipped (with `REAL_VINDEX_PATH` set)
+- [x] **Root-level tests**: 42 passed (with `VINDEX_PATH` set)
+- [x] **Git status**: clean, 0 ahead/0 behind `origin/feature/marimo-notebooks`
+- [x] **Changes made**: Added structured exercises to `04_mutation_basics.py` and `05_patches.py`
 
 ## References
+
 - Skill: `larql-build-and-test` (build/test instructions)
 - Skill: `marimo-notebook` (notebook authoring patterns)
 - AGENTS.md (project architecture)
