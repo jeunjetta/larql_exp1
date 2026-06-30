@@ -74,7 +74,7 @@ Each educational notebook should have:
 - [x] Visualizations (plots, graphs, tables)
 - [x] MoLab badge at bottom of README
 
-## Cron Job Verification (Last Run: 2026-06-30)
+## Cron Job Verification (Last Run: 2026-07-01)
 
 - [x] **Version check**: marimo 0.23.9, notebooks at 0.23.9 (match - no bump needed)
 - [x] **MoLab badge audit**: 18/18 notebooks have badges, all point to correct branch (`jeunjetta/larql/blob/feature/marimo-notebooks/`)
