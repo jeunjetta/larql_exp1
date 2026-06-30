@@ -74,16 +74,6 @@ Each educational notebook should have:
 - [x] Visualizations (plots, graphs, tables)
 - [x] MoLab badge at bottom of README
 
-## Cron Job Verification (Last Run: 2026-07-02)
-
-- [x] **Version check**: marimo 0.23.9, notebooks at 0.23.9 (match - no bump needed)
-- [x] **MoLab badge audit**: 18/18 notebooks have badges, all point to correct branch (`jeunjetta/larql/blob/feature/marimo-notebooks/`)
-- [x] **Validation gate**: `marimo check` passed (0 critical/error, 81 `markdown-indentation` warnings)
-- [x] **Script-mode tests**: 18/18 notebooks passed (0 failures) - verified via `scripts/batch-script-mode.py`
-- [x] **Python binding tests**: 50 passed, 6 skipped (with `REAL_VINDEX_PATH` set)
-- [x] **Root-level tests**: 42 passed (with `VINDEX_PATH` set, 74.55s) - tests/test_vindex_bindings.py
-- [x] **Git status**: clean, 0 ahead/0 behind `origin/feature/marimo-notebooks`
-
 ## Next Steps
 
 1. **✅ All "Try it yourself" sections complete** - 03, 04, 05 all have Basic/Challenge/Observation exercises
