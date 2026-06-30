@@ -258,25 +258,79 @@ column-wise). The original vindex stays unchanged.
 def _(mo, is_script_mode):
     mo.md(
         r"""
-## 🧪 Try It Yourself (Mock Demo)
+## 🎯 Try It Yourself
 
-Since we don't have a real vindex in script mode, here's a mock
-demonstration of the patch workflow:
+### Basic Exercises:
 
-**Mock State:**
-- Base vindex: `gemma3-4b.vindex` (readonly)
-- Active patch: `patch_123456.vlp` (overlay)
+1. **INSERT a new edge**
+   ```sql
+   INSERT INTO edges (entity, relation, target)
+   VALUES ("Ada Lovelace", "field", "Computer Science");
+   ```
+   - Expected: Auto-starts a patch, allocates feature
+   - Observe: What does `SHOW PATCH` return?
 
-**Mock Operations:**
-1. `INSERT ... ("John", "lives-in", "Colchester")` → patch updated
-2. `DESCRIBE "John"` → shows `Colchester` (patched)
-3. `SAVE PATCH` → `patch_123456.vlp` written to disk
-4. `COMPILE CURRENT INTO VINDEX "gemma3-4b-patched.vindex"` → new vindex
+2. **DELETE an edge**
+   ```sql
+   DELETE FROM edges
+   WHERE entity = "Ada Lovelace" AND relation = "field";
+   ```
+   - Expected: Adds negation to patch
+   - Observe: Does `DESCRIBE "Ada Lovelace"` still show "Computer Science"?
 
-**To try for real:**
-1. Run `notebooks/setup.py` to download a vindex
-2. Run `larql repl` to interactively execute LQL
-3. Try the commands from this tutorial
+3. **UPDATE an edge**
+   ```sql
+   INSERT INTO edges (entity, relation, target)
+   VALUES ("Test", "status", "active");
+   
+   UPDATE edges
+   SET target = "inactive"
+   WHERE entity = "Test" AND relation = "status";
+   
+   SHOW PATCH;
+   ```
+   - Observe: Does the patch have 1 or 2 operations? Why?
+
+### Challenge Exercises:
+
+1. **Multi-layer INSERT**
+   ```sql
+   INSERT INTO edges (entity, relation, target)
+   VALUES ("LARQL", "is", "Graph Database")
+   AT LAYERS 20-26;
+   ```
+   - What happens? Why might multiple layers strengthen recall?
+   - Try `DESCRIBE "LARQL"` at different layers
+
+2. **Patch stacking**
+   ```sql
+   BEGIN PATCH "patch-a";
+   INSERT INTO edges (entity, relation, target)
+   VALUES ("A", "rel", "B");
+   SAVE PATCH;
+   
+   BEGIN PATCH "patch-b";
+   INSERT INTO edges (entity, relation, target)
+   VALUES ("B", "rel", "C");
+   SAVE PATCH;
+   
+   SHOW PATCHES;
+   ```
+   - Observe: Can you apply both patches? What order?
+
+### Observation Questions:
+
+- Why doesn't LARQL modify base files directly?
+- When would you use `SAVE PATCH` vs `COMPILE CURRENT INTO VINDEX`?
+- What's the difference between a patch and a compiled vindex?
+- Why are patches human-readable JSON (`.vlp`) instead of binary?
+
+---
+
+**Next steps:**
+1. Run `notebooks/setup.py` to download a real vindex
+2. Run `larql repl` to try these commands interactively
+3. Try `compile_knowledge.py` to see a full compile workflow
 
 ---
 

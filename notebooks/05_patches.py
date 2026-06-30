@@ -287,37 +287,95 @@ def _(mo, is_script_mode):
         r"""
 ## 🎯 Try It Yourself
 
-**To experiment with patches for real:**
+### Basic Exercises:
 
-1. **Start the REPL:**
-   ```bash
-   larql repl
-   ```
-
-2. **Create a patch:**
+1. **Create and save a patch**
    ```sql
    BEGIN PATCH "test-patch";
-   INSERT INTO edges (entity, "Test", relation, "knows")
-   VALUES ("LARQL");
+   INSERT INTO edges (entity, relation, target)
+   VALUES ("Test", "knows", "LARQL");
    SHOW PATCH;
-   ```
-
-3. **Save the patch:**
-   ```sql
    SAVE PATCH;
    ```
+   - Expected: Patch file created at `~/.larql/patches/test-patch.vlp`
+   - Observe: What's in the `.vlp` file? (It's JSON - open it!)
 
-4. **List patches:**
+2. **List and apply patches**
    ```sql
    SHOW PATCHES;
+   APPLY PATCH "test-patch.vlp";
+   DESCRIBE "Test";
    ```
+   - Observe: Does `DESCRIBE "Test"` show "LARQL"?
 
-5. **Compile when ready:**
+3. **Delete from a patch**
    ```sql
-   COMPILE CURRENT INTO VINDEX "test-vindex.vindex";
+   BEGIN PATCH "delete-patch";
+   DELETE FROM edges
+   WHERE entity = "Test" AND relation = "knows";
+   SHOW PATCH;
+   SAVE PATCH;
    ```
+   - Observe: What does the patch operation look like?
 
-**Next:** Try `compile_knowledge.py` to see a full mutation + compile workflow.
+### Challenge Exercises:
+
+1. **Multi-patch stacking**
+   ```sql
+   BEGIN PATCH "patch-a";
+   INSERT INTO edges (entity, relation, target)
+   VALUES ("A", "next", "B");
+   SAVE PATCH;
+   
+   BEGIN PATCH "patch-b";
+   INSERT INTO edges (entity, relation, target)
+   VALUES ("B", "next", "C");
+   SAVE PATCH;
+   
+   SHOW PATCHES;
+   ```
+   - Observe: Can you apply both patches? What order do they apply?
+
+2. **Compile workflow**
+   ```sql
+   BEGIN PATCH "compile-test";
+   INSERT INTO edges (entity, relation, target)
+   VALUES ("Compile", "test", "Success");
+   SAVE PATCH;
+   
+   COMPILE CURRENT INTO VINDEX "test-compiled.vindex";
+   ```
+   - Observe: What's the size difference between the `.vlp` and the compiled vindex?
+   - Why is the compiled vindex so much larger?
+
+3. **Patch conflicts**
+   Create two patches that modify the same edge differently:
+   ```sql
+   -- Patch 1
+   BEGIN PATCH "conflict-a";
+   INSERT INTO edges (entity, relation, target)
+   VALUES ("X", "val", "1");
+   SAVE PATCH;
+   
+   -- Patch 2
+   BEGIN PATCH "conflict-b";
+   INSERT INTO edges (entity, relation, target)
+   VALUES ("X", "val", "2");
+   SAVE PATCH;
+   ```
+   - Try applying both: What happens? Which value wins?
+
+### Observation Questions:
+
+- Why are patches JSON (`.vlp`) instead of binary?
+- When would you share a `.vlp` file vs a compiled vindex?
+- What's the difference between `SAVE PATCH` and `COMPILE CURRENT INTO VINDEX`?
+- Why can't you modify the base vindex directly?
+- How is a patch like a Git commit? How is it different?
+
+---
+
+**Next:** Try `visualize_patch_diff.py` to see a visual diff of patch operations.
 
 ---
 
