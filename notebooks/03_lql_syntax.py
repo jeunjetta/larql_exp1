@@ -348,13 +348,49 @@ larql repl
 larql lql 'USE "gemma3-4b.vindex"; DESCRIBE "France";'
 ```
 
+---
+## 📝 Try It Yourself
+
+### Basic Exercises:
+1. **DESCRIBE practice**: Write a LQL statement to describe "Paris" with layers 10-20
+   - Expected: `DESCRIBE "Paris" FROM LAYER 10 TO 20;`
+   - Observe: How does the layer range affect the output?
+
+2. **WALK practice**: Write a LQL statement to walk from "France" with limit 10
+   - Expected: `WALK "France" LIMIT 10;`
+   - Observe: What entities appear in the results?
+
+3. **SELECT practice**: Write a LQL statement to select all edges where relation is "capital"
+   - Expected: `SELECT * FROM edges WHERE relation = "capital";`
+   - Observe: How many results return?
+
+### Challenge Exercises:
+1. **Multi-step query**: Combine DESCRIBE and WALK to explore a concept
+   ```
+   DESCRIBE "machine learning";
+   -- Note the top relations, then WALK from one
+   WALK "machine learning" TOP 5;
+   ```
+
+2. **Patch workflow**: Create a patch, insert a new edge, then save
+   ```
+   BEGIN PATCH;
+   INSERT INTO edges (entity, relation, target, layer)
+   VALUES ("AI", "is_a", "Technology", 15);
+   SAVE PATCH AS "ai-knowledge.vlp";
+   ```
+
+### Observation Questions:
+- When does DESCRIBE return more/fewer results? (Try different layer ranges)
+- How does WALK path length vary with different TOP values?
+- What happens when you INSERT a duplicate edge?
+
 **Next steps:**
 1. Try `describe_explorer.py` to interactively explore DESCRIBE
 2. Try `walk_knowledge.py` to interactively explore WALK
 3. Try `compile_knowledge.py` to see mutation + patch workflow
 
 ---
-
 [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/jeunjetta/larql/blob/feature/marimo-notebooks/notebooks/03_lql_syntax.py)
 """
     )
