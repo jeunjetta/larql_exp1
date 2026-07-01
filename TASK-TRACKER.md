@@ -87,7 +87,7 @@ Each educational notebook should have:
 - [x] **Validation gate**: `marimo check` passed (0 critical/error, 81 `markdown-indentation` warnings)
 - [x] **Script-mode tests**: 18/18 notebooks passed (0 failures) - verified via `scripts/batch-script-mode.py`
 - [x] **Python binding tests**: 50 passed, 6 skipped (with `REAL_VINDEX_PATH` set)
-- [x] **Root-level tests**: 42 passed (78.15s) - tests/test_vindex_bindings.py
+- [x] **Root-level tests**: 42 passed (72.35s) - tests/test_vindex_bindings.py
 - [x] **Git status**: clean, 0 ahead/0 behind `origin/feature/marimo-notebooks`
 
 ## References
