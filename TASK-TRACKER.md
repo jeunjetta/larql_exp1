@@ -88,7 +88,7 @@ Each educational notebook should have:
 - [x] **Script-mode tests**: 18/18 notebooks passed (0 failures) - verified via `scripts/batch-script-mode.py`
 - [x] **Python binding tests**: 41 passed, 15 skipped (without real vindex at `crates/larql-python/`)
 - [x] **Root-level tests**: 42 passed (73.62s) - tests/test_vindex_bindings.py
-- [ ] **Git status**: 18 notebooks modified (version bump), need to commit & push
+- [x] **Git status**: clean, 0 ahead/0 behind `origin/feature/marimo-notebooks`
 
 ## References
 
