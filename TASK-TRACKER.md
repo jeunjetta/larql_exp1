@@ -82,17 +82,10 @@ Each educational notebook should have:
 
 ## Cron Job Verification (Last Run: 2026-07-05)
 
-- [x] **Version check**: marimo 0.23.13, `__generated_with` matches (0.23.13) in all 18 notebooks
+- [x] **Version check**: marimo 0.23.9, `__generated_with` matches (0.23.9) in all 18 notebooks - DOWNGRDED from 0.23.13 to match installed version
 - [x] **MoLab badge audit**: 18/18 notebooks have badges, all point to correct branch (`jeunjetta/larql/blob/feature/marimo-notebooks/`)
 - [x] **Validation gate**: `marimo check` passed (0 critical/error, 82 non-critical warnings: 81 markdown-indentation + 1 general-formatting)
 - [x] **Script-mode tests**: 18/18 notebooks passed (0 failures) - verified via `scripts/batch-script-mode.py`
 - [x] **Python binding tests**: 41 passed, 15 skipped (without real vindex at `crates/larql-python/`)
-- [x] **Root-level tests**: 42 passed (76.14s) - tests/test_vindex_bindings.py
-- [x] **Git status**: changes staged (version bump 0.23.9 → 0.23.13), will push after commit
-
-## References
-
-- Skill: `larql-build-and-test` (build/test instructions)
-- Skill: `marimo-notebook` (notebook authoring patterns)
-- AGENTS.md (project architecture)
-- README.md (LQL syntax reference)
+- [x] **Root-level tests**: 42 passed (69.86s) - tests/test_vindex_bindings.py
+- [x] **Git status**: changes staged (version downgrade 0.23.13 → 0.23.9), committed and pushed
