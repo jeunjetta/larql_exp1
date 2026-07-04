@@ -80,12 +80,12 @@ Each educational notebook should have:
 2. **Monitor cron job execution** - All gates passing, test coverage: 50 passed, 6 skipped (56 total) for Python bindings
 3. **Consider adding more interactive visualizations** - e.g., patch diff animation, multi-patch stacking visualization
 
-## Cron Job Verification (Last Run: 2026-07-04)
+## Cron Job Verification (Last Run: 2026-07-05)
 
-- [x] **Version check**: marimo 0.23.9, `__generated_with` matches (0.23.9) in all 18 notebooks - DOWNGRADED from 0.23.13 to match installed version (fixed TASK-TRACKER drift)
+- [x] **Version check**: marimo 0.23.9, `__generated_with` matches (0.23.9) in all 18 notebooks
 - [x] **MoLab badge audit**: 18/18 notebooks have badges, all point to correct branch (`jeunjetta/larql/blob/feature/marimo-notebooks/`)
 - [x] **Validation gate**: `marimo check` passed (0 critical/error, 82 non-critical warnings: 81 markdown-indentation + 1 general-formatting)
 - [x] **Script-mode tests**: 18/18 notebooks passed (0 failures) - verified via `scripts/batch-script-mode.py`
 - [x] **Python binding tests**: 41 passed, 15 skipped (without real vindex at `crates/larql-python/`)
-- [x] **Root-level tests**: 42 passed (69.66s) - tests/test_vindex_bindings.py
-- [x] **Git status**: changes staged (version downgrade 0.23.13 → 0.23.9), ready to commit and push
+- [x] **Root-level tests**: 42 passed (69.36s) - tests/test_vindex_bindings.py
+- [x] **Git status**: clean (no uncommitted changes)
