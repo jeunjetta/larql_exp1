@@ -133,3 +133,14 @@ Each educational notebook should have:
 - [x] **Root-level tests**: 42 passed (69.68s) - tests/test_vindex_bindings.py
 - [x] **Git status**: clean (no uncommitted changes)
 - [x] **Remote sync**: 0\t0 (local matches origin/feature/marimo-notebooks)
+
+## Cron Job Verification (Last Run: 2026-07-10)
+
+- [x] **Version check**: marimo 0.23.9, `__generated_with` matches (0.23.9) in all 18 notebooks
+- [x] **MoLab badge audit**: 18/18 notebooks have badges, all point to correct branch (`jeunjetta/larql/blob/feature/marimo-notebooks/`)
+- [x] **Validation gate**: `marimo check` passed (0 critical/error, 82 non-critical warnings: 81 markdown-indentation + 1 general-formatting)
+- [x] **Script-mode tests**: 18/18 notebooks passed (0 failures) - verified via `scripts/batch-script-mode.py`
+- [x] **Python binding tests**: 41 passed, 15 skipped (without real vindex at `crates/larql-python/`)
+- [x] **Root-level tests**: 42 passed (69.47s) - tests/test_vindex_bindings.py
+- [x] **Git status**: clean (no uncommitted changes)
+- [x] **Remote sync**: 0\t0 (local matches origin/feature/marimo-notebooks)
