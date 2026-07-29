@@ -89,7 +89,7 @@ Each educational notebook should have:
     - [x] Script-mode tests: 18/18 passed
 - [x] **Test suites**:
     - [x] Python binding tests: 41 passed, 15 skipped
-    - [x] Root-level tests (`test_vindex_bindings.py`): 42 passed (73.75s)
+    - [x] Root-level tests (`test_vindex_bindings.py`): 42 passed (73.80s)
     - [x] Notebook inline tests: Collected 0 items (expected)
 - [x] **Git status**: clean (no uncommitted changes)
 - [x] **Remote sync**: 0\t0 (local matches origin/feature/marimo-notebooks)
