@@ -80,72 +80,7 @@ Each educational notebook should have:
 2. **Monitor cron job execution** - All gates passing, test coverage: 50 passed, 6 skipped (56 total) for Python bindings
 3. **Consider adding more interactive visualizations** - e.g., patch diff animation, multi-patch stacking visualization
 
-## Cron Job Verification (Last Run: 2026-07-05)
-
-- [x] **Version check**: marimo 0.23.9, `__generated_with` matches (0.23.9) in all 18 notebooks
-- [x] **MoLab badge audit**: 18/18 notebooks have badges, all point to correct branch (`jeunjetta/larql/blob/feature/marimo-notebooks/`)
-- [x] **Validation gate**: `marimo check` passed (0 critical/error, 82 non-critical warnings: 81 markdown-indentation + 1 general-formatting)
-- [x] **Script-mode tests**: 18/18 notebooks passed (0 failures) - verified via `scripts/batch-script-mode.py`
-- [x] **Python binding tests**: 41 passed, 15 skipped (without real vindex at `crates/larql-python/`)
-- [x] **Root-level tests**: 42 passed (69.36s) - tests/test_vindex_bindings.py
-- [x] **Git status**: clean (no uncommitted changes)
-
-## Cron Job Verification (Last Run: 2026-07-06)
-
-- [x] **Version check**: marimo 0.23.9, `__generated_with` matches (0.23.9) in all 18 notebooks
-- [x] **MoLab badge audit**: 18/18 notebooks have badges, all point to correct branch (`jeunjetta/larql/blob/feature/marimo-notebooks/`)
-- [x] **Validation gate**: `marimo check` passed (0 critical/error, 82 non-critical warnings: 81 markdown-indentation + 1 general-formatting)
-- [x] **Script-mode tests**: 18/18 notebooks passed (0 failures) - verified via `scripts/batch-script-mode.py`
-- [x] **Python binding tests**: 41 passed, 15 skipped (without real vindex at `crates/larql-python/`)
-- [x] **Root-level tests**: 42 passed (69.78s) - tests/test_vindex_bindings.py
-- [x] **Git status**: clean (no uncommitted changes)
-- [x] **Remote sync**: 0\t0 (local matches origin/feature/marimo-notebooks)
-
-## Cron Job Verification (Last Run: 2026-07-07)
-
-- [x] **Version check**: marimo 0.23.9, `__generated_with` matches (0.23.9) in all 18 notebooks
-- [x] **MoLab badge audit**: 18/18 notebooks have badges, all point to correct branch (`jeunjetta/larql/blob/feature/marimo-notebooks/`)
-- [x] **Validation gate**: `marimo check` passed (0 critical/error, 82 non-critical warnings: 81 markdown-indentation + 1 general-formatting)
-- [x] **Script-mode tests**: 18/18 notebooks passed (0 failures) - verified via `scripts/batch-script-mode.py`
-- [x] **Python binding tests**: 41 passed, 15 skipped (without real vindex at `crates/larql-python/`)
-- [x] **Root-level tests**: 42 passed (69.39s) - tests/test_vindex_bindings.py
-- [x] **Git status**: clean (no uncommitted changes)
-- [x] **Remote sync**: 0\t0 (local matches origin/feature/marimo-notebooks)
-
-## Cron Job Verification (Last Run: 2026-07-08)
-
-|- [x] **Version check**: marimo 0.23.9, `__generated_with` matches (0.23.9) in all 18 notebooks
-|- [x] **MoLab badge audit**: 18/18 notebooks have badges, all point to correct branch (`jeunjetta/larql/blob/feature/marimo-notebooks/`)
-|- [x] **Validation gate**: `marimo check` passed (0 critical/error, 82 non-critical warnings: 81 markdown-indentation + 1 general-formatting)
-|- [x] **Script-mode tests**: 18/18 notebooks passed (0 failures) - verified via `scripts/batch-script-mode.py`
-|- [x] **Python binding tests**: 41 passed, 15 skipped (without real vindex at `crates/larql-python/`)
-|- [x] **Root-level tests**: 42 passed (69.80s) - tests/test_vindex_bindings.py
-|- [x] **Git status**: clean (no uncommitted changes)
-|- [x] **Remote sync**: 0\t0 (local matches origin/feature/marimo-notebooks)
-
-## Cron Job Verification (Last Run: 2026-07-09)
-
-- [x] **Version check**: marimo 0.23.9, `__generated_with` matches (0.23.9) in all 18 notebooks
-- [x] **MoLab badge audit**: 18/18 notebooks have badges, all point to correct branch (`jeunjetta/larql/blob/feature/marimo-notebooks/`)
-- [x] **Validation gate**: `marimo check` passed (0 critical/error, 82 non-critical warnings: 81 markdown-indentation + 1 general-formatting)
-- [x] **Script-mode tests**: 18/18 notebooks passed (0 failures) - verified via `scripts/batch-script-mode.py`
-- [x] **Python binding tests**: 41 passed, 15 skipped (without real vindex at `crates/larql-python/`)
-- [x] **Root-level tests**: 42 passed (69.68s) - tests/test_vindex_bindings.py
-- [x] **Git status**: clean (no uncommitted changes)
-- [x] **Remote sync**: 0\t0 (local matches origin/feature/marimo-notebooks)
-
-## Cron Job Verification (Last Run: 2026-07-10)
-
-- [x] **Version check**: marimo 0.23.9, `__generated_with` matches (0.23.9) in all 18 notebooks
-- [x] **MoLab badge audit**: 18/18 notebooks have badges, all point to correct branch (`jeunjetta/larql/blob/feature/marimo-notebooks/`)
-- [x] **Validation gate**: `marimo check` passed (0 critical/error, 82 non-critical warnings: 81 markdown-indentation + 1 general-formatting)
-- [x] **Script-mode tests**: 18/18 notebooks passed (0 failures) - verified via `scripts/batch-script-mode.py`
-- [x] **Python binding tests**: 41 passed, 15 skipped (without real vindex at `crates/larql-python/`)
-- [x] **Root-level tests**: 42 passed (69.47s) - tests/test_vindex_bindings.py
-- [x] **Git status**: clean (no uncommitted changes)
-- [x] **Remote sync**: 0\t0 (local matches origin/feature/marimo-notebooks)
-
-## Cron Job Verification (Last Run: 2026-07-28)
+## Cron Job Verification (Last Run: 2026-07-29)
 
 - [x] **Version check**: Passed (Marimo `0.23.15`, notebooks `0.23.15`)
 - [x] **MoLab badge audit**: Passed (18/18 correct)
@@ -154,8 +89,7 @@ Each educational notebook should have:
     - [x] Script-mode tests: 18/18 passed
 - [x] **Test suites**:
     - [x] Python binding tests: 41 passed, 15 skipped
-    - [x] Root-level tests (`test_vindex_bindings.py`): 42 passed (74.67s)
+    - [x] Root-level tests (`test_vindex_bindings.py`): 42 passed (73.75s)
     - [x] Notebook inline tests: Collected 0 items (expected)
 - [x] **Git status**: clean (no uncommitted changes)
-- [x] **Remote sync**: 0	0 (local matches origin/feature/marimo-notebooks)
-
+- [x] **Remote sync**: 0\t0 (local matches origin/feature/marimo-notebooks)
