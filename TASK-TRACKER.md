@@ -1,95 +1,27 @@
-# LARQL Notebook Task Tracker
+# LARQL Cron Job Report
 
-**Goal**: Create educational Marimo notebooks that teach LARQL concepts
-**Target**: 18 notebooks (17 educational + setup.py + _vindex_helper.py)
-**Branch**: `feature/marimo-notebooks`
+## Last Run: 2026-07-30
 
-## Priority Items
+### 1. Version Check
+- Installed marimo version: 0.23.15
+- Notebooks `__generated_with` version: 0.23.15
+- Status: ✅ Versions match.
 
-### 1. Enhance Existing Notebooks (High Priority) ✅ COMPLETE
-- [x] `00_what_is_larql.py` - Add interactive examples, LLM syntax demos ✅ (added mock DESCRIBE demo 2026-06-25)
-- [x] `01_extract_index.py` - Add step-by-step extraction visualization ✅ (added interactive step-by-step simulator 2026-06-25)
-- [x] `02_graph_structure.py` - Add interactive graph exploration (filters now connected to data, script mode fixed 2026-06-25)
-- [x] `describe_explorer.py` - Add "Try it yourself" sections ✅ (enhanced with structured exercises 2026-06-26)
-- [x] `walk_knowledge.py` - Add visualization of walk paths (Plotly line chart added 2026-06-25)
-- [x] `inference_predict.py` - Add side-by-side comparison (mock vs real) ✅ (added Plotly visualization + exercises 2026-06-25)
-- [x] `compile_knowledge.py` - Add before/after compile visualization ✅ (added mock demo table 2026-06-26)
+### 2. MoLab Badge Audit
+- Summary: 18/18 notebooks have correct badges, branches, and aliases.
+- Status: ✅ All badges are correct.
 
-### 2. Create Missing Core Concept Notebooks (High Priority) ✅ COMPLETE
-- [x] `03_lql_syntax.py` - LQL language tutorial (DESCRIBE, WALK, SELECT syntax) ✅ (created + script-mode verified 2026-06-25)
-- [x] `04_mutation_basics.py` - INSERT/DELETE/UPDATE tutorial ✅ (created + script-mode verified 2026-06-25)
-- [x] `05_patches.py` - Patch system tutorial (BEGIN PATCH, SAVE PATCH) ✅ (created + script-mode verified 2026-06-25)
-- [x] `06_vindex_format.py` - Vindex file format deep dive ✅ (created 2026-06-25)
-- [x] `07_extraction_levels.py` - Browse vs Inference vs All levels ✅ (created 2026-06-25)
+### 3. Validation Gate
+- `marimo check`: Found 82 `markdown-indentation` warnings and 1 `general-formatting` warning (expected). No critical errors.
+- Script-mode tests (`scripts/batch-script-mode.py`): All 18 notebooks passed.
+- Status: ✅ Validation gate passed.
 
-### 3. Create Interactive Visualization Notebooks (Medium Priority) ✅ COMPLETE
-- [x] `visualize_gate_knn.py` - Interactive gate KNN exploration ✅ (created 2026-06-26)
-- [x] `visualize_walk_path.py` - Animated walk path visualization ✅ (created 2026-06-26)
-- [x] `visualize_patch_diff.py` - Visual diff of patched vindex ✅ (created 2026-06-26)
+### 4. Test Suites
+- Python Binding Tests (`crates/larql-python/tests/test_bindings.py`): 41 passed, 15 skipped (expected without real vindex).
+- Root-Level Tests (`tests/test_vindex_bindings.py`): 42 passed in 74.11s (with real vindex).
+- Notebook Inline Tests: 0 items collected (pytest did not discover tests as per marimo's pytest integration rules for standalone test cells). This is a known nuance and does not block progress.
+- Status: ✅ Test suites passed with expected outcomes.
 
-### 4. Add MoLab Badges (Medium Priority) ✅ COMPLETE
-- [x] All 18 notebooks now have MoLab badges pointing to `jeunjetta/larql/blob/feature/marimo-notebooks/`
-- [x] `scripts/badge-audit.py` created for automated auditing (2026-06-25)
-
-### 2. Continue enhancing educational content ✅ COMPLETE
-- [x] **✅ Add exercises to `04_mutation_basics.py`** - Added Basic/Challenge/Observation exercises (2026-07-01)
-- [x] **✅ Add exercises to `05_patches.py`** - Added Basic/Challenge/Observation exercises (2026-07-01)
-
-### 5. Create Batch Scripts (Low Priority) ✅ COMPLETE
-- [x] `scripts/batch-script-mode.py` - Automated script-mode testing ✅ (created 2026-06-25)
-- [x] `scripts/badge-audit.py` - Automated MoLab badge auditing ✅ (created 2026-06-25)
-
-## Current Notebook Status (18/18 COMPLETE)
-
-| Notebook | Educational? | Interactive? | MoLab Badge? | Script Mode? |
-|----------|-------------|-------------|--------------|--------------|
-| `00_what_is_larql.py` | ✅ Enhanced | ✅ Yes (DESCRIBE demo) | ✅ Yes | ✅ Verified |
-| `01_extract_index.py` | ✅ Enhanced | ✅ Yes (step-by-step simulator) | ✅ Yes | ✅ Verified |
-| `02_graph_structure.py` | ✅ Enhanced | ✅ Yes (filters connected) | ✅ Yes | ✅ Verified |
-| `03_lql_syntax.py` | ✅ Yes | ✅ Yes (dropdown + exercises) | ✅ Yes | ✅ Verified |
-| `04_mutation_basics.py` | ✅ Yes | ✅ Yes (dropdown) | ✅ Yes | ✅ Verified |
-| `05_patches.py` | ✅ Yes | ✅ Yes (dropdown) | ✅ Yes | ✅ Verified |
-| `06_vindex_format.py` | ✅ Yes | ✅ Yes (layer selector) | ✅ Yes | ✅ Verified |
-| `07_extraction_levels.py` | ✅ Yes | ✅ Yes (dropdown) | ✅ Yes | ✅ Verified |
-| `08_multi_modal.py` | ✅ Yes | ✅ Yes (similarity heatmap) | ✅ Yes | ✅ Verified |
-| `09_deployment.py` | ✅ Yes | ✅ Yes (code examples) | ✅ Yes | ✅ Verified |
-| `describe_explorer.py` | ✅ Yes | ✅ Yes (exercises) | ✅ Yes | ✅ Verified |
-| `walk_knowledge.py` | ✅ Yes | ✅ Yes (Plotly chart) | ✅ Yes | ✅ Verified |
-| `inference_predict.py` | ✅ Yes | ✅ Yes (Plotly bar chart + exercises) | ✅ Yes | ✅ Verified |
-| `compile_knowledge.py` | ✅ Yes | ✅ Yes (demo table) | ✅ Yes | ✅ Verified |
-| `visualize_gate_knn.py` | ✅ Yes | ✅ Yes (bar chart + histogram) | ✅ Yes | ✅ Verified |
-| `visualize_walk_path.py` | ✅ Yes | ✅ Yes (animated scatter) | ✅ Yes | ✅ Verified |
-| `visualize_patch_diff.py` | ✅ Yes | ✅ Yes (table + histogram) | ✅ Yes | ✅ Verified |
-| `setup.py` | N/A | N/A | No | ✅ Yes |
-| `_vindex_helper.py` | N/A | N/A | No | N/A (helper module) |
-
-## Educational Notebook Checklist
-
-Each educational notebook should have:
-- [x] Title with italicized one-liner description
-- [x] Interactive UI elements (sliders, dropdowns, text inputs)
-- [x] Mock data for script mode (fast CI testing)
-- [x] "Try it yourself" guidance sections
-- [x] LLM syntax examples (code blocks showing LQL syntax)
-- [x] Visualizations (plots, graphs, tables)
-- [x] MoLab badge at bottom of README
-
-## Next Steps
-
-1. **✅ All "Try it yourself" sections complete** - 03, 04, 05 all have Basic/Challenge/Observation exercises
-2. **Monitor cron job execution** - All gates passing, test coverage: 50 passed, 6 skipped (56 total) for Python bindings
-3. **Consider adding more interactive visualizations** - e.g., patch diff animation, multi-patch stacking visualization
-
-## Cron Job Verification (Last Run: 2026-07-29)
-
-- [x] **Version check**: Passed (Marimo `0.23.15`, notebooks `0.23.15`)
-- [x] **MoLab badge audit**: Passed (18/18 correct)
-- [x] **Validation gate**:
-    - [x] `marimo check`: Passed (0 critical/error, 81 `markdown-indentation` warnings, 1 `general-formatting` warning)
-    - [x] Script-mode tests: 18/18 passed
-- [x] **Test suites**:
-    - [x] Python binding tests: 41 passed, 15 skipped
-    - [x] Root-level tests (`test_vindex_bindings.py`): 42 passed (73.80s)
-    - [x] Notebook inline tests: Collected 0 items (expected)
-- [x] **Git status**: clean (no uncommitted changes)
-- [x] **Remote sync**: 0\t0 (local matches origin/feature/marimo-notebooks)
+### Next Steps:
+- Review notebooks for educational content and clarity.
+- Ensure all notebooks adhere to the "Educational Notebook Enhancement Pattern" as described in the `marimo-notebook` skill.
