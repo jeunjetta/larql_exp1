@@ -117,6 +117,7 @@ def _(prompt_input, top_k, walk_layers, is_script_mode, mo, np, Path):
         _md_content = f"""
 ## 🚶 WALK Results for "{prompt_input.value}"
 
+
 **Prompt:** {prompt_input.value} 
 **Top-K:** {top_k.value} 
 **Layers:** {walk_layers.value}

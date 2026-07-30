@@ -53,7 +53,8 @@ This notebook demonstrates these deployment patterns with mock examples.
 
 @app.cell
 def _(mo):
-    mo.md(r"""## 🎛️ Deployment Tradeoff Explorer""")
+    mo.md(r"""## 🎛️ Deployment Tradeoff Explorer
+""")
     return
 
 

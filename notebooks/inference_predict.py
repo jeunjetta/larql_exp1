@@ -114,6 +114,7 @@ def _(prompt_input, top_k, compare_toggle, is_script_mode, mo, np, Path):
         _md_content = f"""
 ## 🤖 INFER Results for "{prompt_input.value}"
 
+
 **Prompt:** {prompt_input.value} 
 **Top-K:** {top_k.value} 
 **Mode:** {"Compare (with probabilities)" if compare_toggle.value else "Simple"}

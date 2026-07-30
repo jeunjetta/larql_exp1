@@ -134,6 +134,8 @@ def _(mo, layer_selector, is_script_mode):
     mo.md(
         f"""
 ## 📊 File Sizes for {layer_selector.value}
+[![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/jeunjetta/larql/blob/feature/marimo-notebooks/notebooks/06_vindex_format.py)
+
 
 Based on the selected layer band:
 """
@@ -286,13 +288,7 @@ def _(mo):
     return
 
 
-@app.cell
-def _(mo):
-    mo.md(
-        r"""[![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/jeunjetta/larql/blob/feature/marimo-notebooks/notebooks/06_vindex_format.py)
-"""
-    )
-    return
+
 
 if __name__ == "__main__":
     app.run()

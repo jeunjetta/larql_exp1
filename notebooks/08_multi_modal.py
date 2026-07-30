@@ -85,6 +85,8 @@ def _(marimo, is_script_mode):
     marimo.md(
         r"""
 ## 🧪 Mock Multi-Modal Query Demo
+[![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/jeunjetta/larql/blob/feature/marimo-notebooks/notebooks/08_multi_modal.py)
+
 
 *This demo uses mock data to show how a multi-modal LQL query would work.*
 """
@@ -236,9 +238,7 @@ def _(marimo):
 
 2. **Explore the vision tower** in `crates/larql-models/src/encoders/vision_tower.rs`
 
-3. **Read the design doc**: `docs/multi-modal.md`
-
-[![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/jeunjetta/larql/blob/feature/marimo-notebooks/notebooks/08_multi_modal.py)
+3. Read the design doc: `docs/multi-modal.md`
 """
     )
     return

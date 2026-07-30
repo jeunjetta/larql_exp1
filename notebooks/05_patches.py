@@ -286,6 +286,8 @@ def _(mo, is_script_mode):
     mo.md(
         r"""
 ## 🎯 Try It Yourself
+[![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/jeunjetta/larql/blob/feature/marimo-notebooks/notebooks/05_patches.py)
+
 
 ### Basic Exercises:
 
@@ -378,8 +380,6 @@ def _(mo, is_script_mode):
 **Next:** Try `visualize_patch_diff.py` to see a visual diff of patch operations.
 
 ---
-
-[![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/jeunjetta/larql/blob/feature/marimo-notebooks/notebooks/05_patches.py)
 """
     )
     return

@@ -126,6 +126,7 @@ def _(entity_input, layer_start, layer_end, verbose_toggle, is_script_mode, mo, 
             f"""
 ## 📊 DESCRIBE Results for "{entity_input.value}"
 
+
 **Entity:** {entity_input.value}  
 **Layer Range:** {layer_start.value}–{layer_end.value}  
 **Mode:** {"Verbose" if verbose_toggle.value else "Brief"}

@@ -207,6 +207,8 @@ def _(mo, model_input, extract_level, extract_button, is_script_mode):
         # Build step-by-step visualization
         _content = f"""
 ## ⚙️ Extraction Process: Step-by-Step
+[![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/jeunjetta/larql/blob/feature/marimo-notebooks/notebooks/01_extract_index.py)
+
 
 **Model:** `{model_input.value}`  
 **Level:** `{extract_level.value}`
@@ -351,14 +353,7 @@ print(vindex.stats())
     return
 
 
-@app.cell
-def _(mo):
-    mo.md(
-        r"""
-[![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/jeunjetta/larql/blob/feature/marimo-notebooks/notebooks/01_extract_index.py)
-"""
-    )
-    return
+
 
 
 if __name__ == "__main__":

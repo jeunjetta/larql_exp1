@@ -155,6 +155,7 @@ Auto-patch started (use SAVE PATCH to persist).'''
         f"""
 ## 📝 Generated LQL Statement
 
+
 ```sql
 {lql_statement}
 ```

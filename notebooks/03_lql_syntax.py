@@ -390,7 +390,6 @@ larql lql 'USE "gemma3-4b.vindex"; DESCRIBE "France";'
 3. Try `compile_knowledge.py` to see mutation + patch workflow
 
 ---
-[![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/jeunjetta/larql/blob/feature/marimo-notebooks/notebooks/03_lql_syntax.py)
 """
     )
     return

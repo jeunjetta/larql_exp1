@@ -150,6 +150,8 @@ COMPILE CURRENT INTO VINDEX 'output/optimized_index';
 def _(mo, is_script_mode):
     _content = r"""
 ## 🔬 Interactive Exploration
+[![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/jeunjetta/larql/blob/feature/marimo-notebooks/notebooks/07_extraction_levels.py)
+
 
 Use the dropdown above to explore what operations work at each level.
 
@@ -245,12 +247,7 @@ except Exception as e:
     return
 
 
-@app.cell
-def _(mo):
-    mo.md(
-        r"""[![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/jeunjetta/larql/blob/feature/marimo-notebooks/notebooks/07_extraction_levels.py)"""
-    )
-    return
+
 
 
 if __name__ == "__main__":

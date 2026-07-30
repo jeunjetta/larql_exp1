@@ -143,6 +143,8 @@ def _(mo, entity_input, mock_edges, layer_range, relation_filter):
     # Build content string
     _content = f"""
 ## 📊 Graph View: Edges for "{entity_input.value}"
+[![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/jeunjetta/larql/blob/feature/marimo-notebooks/notebooks/02_graph_structure.py)
+
 
 **Entity:** `{entity_input.value}` 
 **Edges found:** {len(mock_edges)} total, {len(_filtered)} after filtering
@@ -439,14 +441,7 @@ def _(mo):
     return
 
 
-@app.cell
-def _(mo):
-    mo.md(
-        r"""
-[![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/jeunjetta/larql/blob/feature/marimo-notebooks/notebooks/02_graph_structure.py)
-"""
-    )
-    return
+
 
 
 if __name__ == "__main__":

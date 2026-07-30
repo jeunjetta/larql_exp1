@@ -259,6 +259,8 @@ def _(mo, is_script_mode):
     mo.md(
         r"""
 ## 🎯 Try It Yourself
+[![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/jeunjetta/larql/blob/feature/marimo-notebooks/notebooks/04_mutation_basics.py)
+
 
 ### Basic Exercises:
 
@@ -333,8 +335,6 @@ def _(mo, is_script_mode):
 3. Try `compile_knowledge.py` to see a full compile workflow
 
 ---
-
-[![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/jeunjetta/larql/blob/feature/marimo-notebooks/notebooks/04_mutation_basics.py)
 """
     )
     return
