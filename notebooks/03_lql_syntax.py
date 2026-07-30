@@ -337,6 +337,8 @@ def _(mo, is_script_mode):
     mo.md(
         r"""
 ## 🎯 Interactive Example
+[![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/jeunjetta/larql/blob/feature/marimo-notebooks/notebooks/03_lql_syntax.py)
+
 
 Try running these LQL commands in the `larql repl`:
 
@@ -353,15 +355,12 @@ larql lql 'USE "gemma3-4b.vindex"; DESCRIBE "France";'
 
 ### Basic Exercises:
 1. **DESCRIBE practice**: Write a LQL statement to describe "Paris" with layers 10-20
-   - Expected: `DESCRIBE "Paris" FROM LAYER 10 TO 20;`
    - Observe: How does the layer range affect the output?
 
 2. **WALK practice**: Write a LQL statement to walk from "France" with limit 10
-   - Expected: `WALK "France" LIMIT 10;`
    - Observe: What entities appear in the results?
 
 3. **SELECT practice**: Write a LQL statement to select all edges where relation is "capital"
-   - Expected: `SELECT * FROM edges WHERE relation = "capital";`
    - Observe: How many results return?
 
 ### Challenge Exercises:

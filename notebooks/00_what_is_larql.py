@@ -132,6 +132,7 @@ def _(mo):
     mo.md(
         r"""
 ## 🎯 Interactive Demo: Try DESCRIBE
+[![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/jeunjetta/larql/blob/feature/marimo-notebooks/notebooks/00_what_is_larql.py)
 
 Type an entity name below and click "Describe" to see mock results:
 """
@@ -271,20 +272,7 @@ larql lql 'USE "gemma3-4b.vindex"; DESCRIBE "France";'
 @app.cell
 def _(mo):
     mo.md(
-        r"""## 📚 What's Next?
 
-Explore these interactive notebooks:
-
-1. **`describe_explorer.py`** — Learn `DESCRIBE`: browse what a model knows
-2. **`walk_knowledge.py`** — Learn `WALK`: traverse knowledge paths
-3. **`inference_predict.py`** — Learn `INFER`: run inference with vindex
-4. **`compile_knowledge.py`** — Learn `COMPILE`: edit and recompile knowledge
-5. **`03_lql_syntax.py`** — Complete LQL language tutorial
-
----
-
-[![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/jeunjetta/larql/blob/feature/marimo-notebooks/notebooks/00_what_is_larql.py)
-"""
     )
     return
 
