@@ -41,14 +41,17 @@ def _(mo, is_script_mode):
 
 LARQL's most important invariant: **Base vindex files are never modified.**
 
-Instead, all mutations (INSERT/DELETE/UPDATE) flow through a
-`PatchedVindex` overlay — a stack of `.vlp` JSON patch files.
+**Key concept:** LARQL never modifies the base vindex files. All mutations
+create a `PatchedVindex` overlay — a stack of `.vlp` JSON patch files.
 
 **Analogy:** Think of Git branches vs commits:
 - **Base vindex** = main branch (immutable)
 - **Patch** = commit (overlay with changes)
 - **PatchedVindex** = working directory (base + patches)
 - **COMPILE** = merge + create new branch
+
+### Observation Question:
+- Considering the Git analogy, why is it crucial that LARQL's `Base vindex` is immutable and all changes are handled through `Patches`? What are the benefits of this approach compared to direct modification?
 
 ---
 """
@@ -280,6 +283,35 @@ COMPILE CURRENT INTO VINDEX "gemma3-4b-patched.vindex";
     mo.md(_content)
     return
 
+
+@app.cell
+def _(mo):
+    mo.md(r"""
+---
+
+## 💡 Knowledge Check: Patch System
+
+Let's test your understanding of LARQL's patch system!
+
+**Question 1:** Which operation bakes all active patches into a **new, standalone vindex**?
+""")
+    q1_options = {
+        "SAVE PATCH": "incorrect1",
+        "APPLY PATCH": "incorrect2",
+        "COMPILE CURRENT INTO VINDEX": "correct",
+        "INSERT": "incorrect3",
+    }
+    q1_radio = mo.ui.radio(q1_options, label="Select your answer:")
+    q1_radio
+    return q1_radio, mo
+
+@app.cell
+def _(q1_radio, mo):
+    if q1_radio.value == "correct":
+        mo.md("🎉 **Correct!** `COMPILE CURRENT INTO VINDEX` creates a new vindex with all changes applied.")
+    elif q1_radio.value:
+        mo.md("❌ **Incorrect.** Review the 'COMPILE vs SAVE' section to understand the difference between saving a patch and compiling a new vindex.")
+    return
 
 @app.cell
 def _(mo, is_script_mode):
