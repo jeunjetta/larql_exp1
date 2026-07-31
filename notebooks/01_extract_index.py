@@ -209,6 +209,13 @@ def _(mo, model_input, extract_level, extract_button, is_script_mode):
 ## ⚙️ Extraction Process: Step-by-Step
 [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/jeunjetta/larql/blob/feature/marimo-notebooks/notebooks/01_extract_index.py)
 
+This section simulates the `larql extract-index` command, showing the internal steps involved in creating a vindex.
+
+### Observation Questions:
+- What is the largest file generated during the extraction process?
+- How does the `Extraction Level` you selected above affect the final size and capabilities of the vindex?
+- Why is `down_meta.bin` generated, and what kind of information does it contain?
+
 
 **Model:** `{model_input.value}`  
 **Level:** `{extract_level.value}`
@@ -305,6 +312,35 @@ gemma3-4b.vindex/
     )
     return
 
+
+@app.cell
+def _(mo):
+    mo.md(r"""
+---
+
+## 💡 Knowledge Check: Extraction Concepts
+
+Let's test your understanding of LARQL's extraction process!
+
+**Question 1:** Which extraction level allows you to run `INFER` queries but not `COMPILE` (edit weights)?
+""")
+    q1_options = {
+        "browse": "incorrect1",
+        "inference": "correct",
+        "all": "incorrect2",
+        "none": "incorrect3",
+    }
+    q1_radio = mo.ui.radio(q1_options, label="Select your answer:")
+    q1_radio
+    return q1_radio, mo
+
+@app.cell
+def _(q1_radio, mo):
+    if q1_radio.value == "correct":
+        mo.md("🎉 **Correct!** The `inference` level provides query and inference capabilities without full write access.")
+    elif q1_radio.value:
+        mo.md("❌ **Incorrect.** Review the 'Extraction Levels' section to understand the capabilities of each level.")
+    return
 
 @app.cell
 def _(mo):
