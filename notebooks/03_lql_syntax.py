@@ -46,6 +46,9 @@ LQL has 20+ statement types across 5 categories:
 5. **Patches** — BEGIN PATCH, SAVE PATCH, APPLY PATCH
 
 Let's explore each category interactively.
+
+### Observation Question:
+- Why are `EXTRACT` and `COMPILE` considered "Lifecycle" statements, while `INSERT`/`DELETE`/`UPDATE` are "Mutation"? What's the key difference in their effect on the vindex?
 """
     )
     return
@@ -331,6 +334,35 @@ them into a new standalone vindex.
     mo.md(_content)
     return
 
+
+@app.cell
+def _(mo):
+    mo.md(r"""
+---
+
+## 💡 Knowledge Check: LQL Categories
+
+Let's test your understanding of LQL statement categories!
+
+**Question 1:** Which LQL statement is used to persist a temporary set of changes to the vindex as a `.vlp` JSON file?
+""")
+    q1_options = {
+        "EXTRACT": "incorrect1",
+        "INSERT": "incorrect2",
+        "SAVE PATCH": "correct",
+        "COMPILE": "incorrect3",
+    }
+    q1_radio = mo.ui.radio(q1_options, label="Select your answer:")
+    q1_radio
+    return q1_radio, mo
+
+@app.cell
+def _(q1_radio, mo):
+    if q1_radio.value == "correct":
+        mo.md("🎉 **Correct!** `SAVE PATCH` is used to persist changes to a patch file.")
+    elif q1_radio.value:
+        mo.md("❌ **Incorrect.** Review the 'Patch Statements' section to recall how changes are persisted.")
+    return
 
 @app.cell
 def _(mo, is_script_mode):
