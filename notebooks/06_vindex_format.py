@@ -84,12 +84,15 @@ gemma3-4b-v2.vindex/
 - The files can be larger than RAM
 - Access is lazy (only loads what's needed)
 - Multiple processes can share the same memory
+- Can mmap files larger than RAM
+
+### Observation Question:
+- Why is using a directory structure with multiple `.bin` files and memory-mapping more beneficial for LARQL than storing the entire model as a single large file or loading it entirely into RAM?
 
 ---
 """
     )
     return
-
 
 @app.cell
 def _(mo):
@@ -136,8 +139,11 @@ def _(mo, layer_selector, is_script_mode):
 ## 📊 File Sizes for {layer_selector.value}
 [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/jeunjetta/larql/blob/feature/marimo-notebooks/notebooks/06_vindex_format.py)
 
-
 Based on the selected layer band:
+
+### Observation Question:
+- How do the file sizes of `gate_vectors.bin` and `down_weights.bin` change across different layer bands (Early, Middle, Late)? What does this imply about the distribution of knowledge within the model's layers?
+
 """
     )
 
@@ -268,6 +274,35 @@ EXTRACT ALL;  -- ~10 GB, adds COMPILE
     )
     return
 
+
+@app.cell
+def _(mo):
+    mo.md(r"""
+---
+
+## 💡 Knowledge Check: Vindex Format
+
+Let's test your understanding of the vindex file format and memory mapping!
+
+**Question 1:** What is the primary benefit of using memory-mapped (`mmap`) files for large tensors like `gate_vectors.bin`?
+""")
+    q1_options = {
+        "It significantly reduces the total disk space required for the vindex": "incorrect1",
+        "It allows the entire file to be loaded into RAM at once for faster access": "incorrect2",
+        "It enables lazy loading of data pages on-demand and zero-copy access": "correct",
+        "It encrypts the file contents for enhanced security": "incorrect3",
+    }
+    q1_radio = mo.ui.radio(q1_options, label="Select your answer:")
+    q1_radio
+    return q1_radio, mo
+
+@app.cell
+def _(q1_radio, mo):
+    if q1_radio.value == "correct":
+        mo.md("🎉 **Correct!** Memory mapping allows efficient, on-demand access to large files without fully loading them into RAM.")
+    elif q1_radio.value:
+        mo.md("❌ **Incorrect.** Review the 'Memory Mapping (mmap)' section to understand its benefits.")
+    return
 
 @app.cell
 def _(mo):
