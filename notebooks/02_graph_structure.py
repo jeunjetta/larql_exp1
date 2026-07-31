@@ -145,11 +145,21 @@ def _(mo, entity_input, mock_edges, layer_range, relation_filter):
 ## 📊 Graph View: Edges for "{entity_input.value}"
 [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/jeunjetta/larql/blob/feature/marimo-notebooks/notebooks/02_graph_structure.py)
 
+This section displays the knowledge edges (facts) extracted for the entity you entered, applying any filters you've set. The table shows the raw edges, and the interactive graph below visualizes them as nodes and connections.
 
-**Entity:** `{entity_input.value}` 
-**Edges found:** {len(mock_edges)} total, {len(_filtered)} after filtering
+### Basic Exercises:
+1.  **Change Entity:** Type `Einstein` in the input field above and observe how the edges change. What new relations appear?
+2.  **Filter by Layer:** Use the `Layer Range Filter` to see edges found only in specific layers (e.g., layers 20-25). How does this affect the graph and table?
+3.  **Filter by Relation:** Select `capital` from the `Relation Type Filter`. What entities are connected by this relation for `France`?
 
-### Edge Structure:
+### Challenge Exercises:
+1.  **Combined Filters:** Find all `language` relations for `France` within layers 20-25. How many edges are left?
+2.  **Unknown Entity:** Try entering an entity you expect the model *not* to know (e.g., `Zzzyyxx`). What happens to the graph and table? Why?
+
+### Observation Questions:
+- How does changing the `Entity to Explore` affect the `Edges found` count?
+- What insights can you gain by filtering edges by `Layer`? Does certain knowledge appear to be concentrated in specific layers?
+- In the interactive graph, how do `Score` and `Layer` (shown on hover) contribute to understanding the strength and origin of a knowledge edge?
 
 | Relation | Target | Score | Layer | Source |
 |-----------|--------|-------|-------|--------|
@@ -373,6 +383,35 @@ WALK "The capital of France is" TOP 5;
     )
     return
 
+
+@app.cell
+def _(mo):
+    mo.md(r"""
+---
+
+## 💡 Knowledge Check: Graph Structure
+
+Let's test your understanding of LARQL's graph representation!
+
+**Question 1:** In LARQL's graph abstraction, what do **nodes** primarily represent?
+""")
+    q1_options = {
+        "Transformer model layers": "incorrect1",
+        "Entities (e.g., France, Einstein)": "correct",
+        "Knowledge relations (e.g., capital, language)": "incorrect2",
+        "Feature activation scores": "incorrect3",
+    }
+    q1_radio = mo.ui.radio(q1_options, label="Select your answer:")
+    q1_radio
+    return q1_radio, mo
+
+@app.cell
+def _(q1_radio, mo):
+    if q1_radio.value == "correct":
+        mo.md("🎉 **Correct!** Entities are the nodes in LARQL's knowledge graph.")
+    elif q1_radio.value:
+        mo.md("❌ **Incorrect.** Review the 'Core Abstraction' section to recall what nodes represent.")
+    return
 
 @app.cell
 def _(mo):
