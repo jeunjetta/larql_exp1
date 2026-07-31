@@ -71,6 +71,9 @@ larql run \
   "Describe this image in detail"
 ```
 
+### Observation Question:
+- How does the `multi_modal_projector` bridge the gap between image patches and text tokens? Why is this alignment crucial for multi-modal LQL queries?
+
 In LQL, multi-modal support means:
 - `DESCRIBE 'image_embedding'` can return visual attributes
 - `WALK` can traverse from image concepts to text concepts
@@ -117,6 +120,9 @@ def _(np, go, marimo, is_script_mode):
 
     marimo.md(
         f"""
+### Observation Question:
+- How does the `multi_modal_projector` (simulated by `projected_patches`) transform the raw image patches? Why is this transformation necessary for calculating similarity with text tokens?
+
 - **Image patches**: `{num_patches}` patches from vision tower
 - **Text tokens**: `{num_text_tokens}` tokens from prompt
 - **Similarity shape**: `{similarity.shape}` (patches × text)
@@ -185,6 +191,35 @@ def _(np, marimo, projected_patches, text_tokens, is_script_mode):
     marimo.ui.table(table_rows)
     return
 
+
+@app.cell
+def _(marimo):
+    marimo.md(r"""
+---
+
+## 💡 Knowledge Check: Multi-Modal
+
+Let's test your understanding of LARQL's multi-modal capabilities!
+
+**Question 1:** What is the role of the `multi_modal_projector` in LARQL's multi-modal architecture?
+""")
+    q1_options = {
+        "To extract features from raw image pixels": "incorrect1",
+        "To encode text tokens into a shared embedding space": "incorrect2",
+        "To align image patch embeddings with the language model's embedding space": "correct",
+        "To generate new images based on text prompts": "incorrect3",
+    }
+    q1_radio = marimo.ui.radio(q1_options, label="Select your answer:")
+    q1_radio
+    return q1_radio, marimo
+
+@app.cell
+def _(q1_radio, marimo):
+    if q1_radio.value == "correct":
+        marimo.md("🎉 **Correct!** The projector ensures that image and text embeddings are comparable within the same vector space.")
+    elif q1_radio.value:
+        marimo.md("❌ **Incorrect.** Review the 'How Multi-Modal Works' section to understand the function of each component.")
+    return
 
 @app.cell
 def _(marimo, is_script_mode):
