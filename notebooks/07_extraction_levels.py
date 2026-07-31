@@ -48,7 +48,9 @@ LARQL vindexes can be extracted at three different levels, each adding more capa
 | **All** | ~10 GB | + COMPILE | Patch and recompile |
 
 **Key insight**: Not all LQL statements work at all levels. Trying to COMPILE on a "browse" vindex will fail!
-""")
+
+### Observation Question:
+- Why do different extraction levels require different amounts of disk space (e.g., Browse ~3 GB vs All ~10 GB)? What additional data or model components are included at higher levels?""")
     return
 
 
@@ -209,6 +211,35 @@ def _(mo, np, is_script_mode):
     mo.md(_content)
     return
 
+
+@app.cell
+def _(mo):
+    mo.md(r"""
+---
+
+## 💡 Knowledge Check: Extraction Levels
+
+Let's test your understanding of LARQL's extraction levels!
+
+**Question 1:** You need to perform `INSERT` operations to add new knowledge to your vindex. Which is the *minimum* extraction level required?
+""")
+    q1_options = {
+        "Browse": "incorrect1",
+        "Inference": "incorrect2",
+        "All": "correct",
+        "Any level, as patches are separate": "incorrect3",
+    }
+    q1_radio = mo.ui.radio(q1_options, label="Select your answer:")
+    q1_radio
+    return q1_radio, mo
+
+@app.cell
+def _(q1_radio, mo):
+    if q1_radio.value == "correct":
+        mo.md("🎉 **Correct!** `INSERT` (and other mutations) require the `All` extraction level because they involve recompiling a new vindex.")
+    elif q1_radio.value:
+        mo.md("❌ **Incorrect.** Review the 'Extraction Levels' and 'All Level' sections to understand which operations are supported at each level.")
+    return
 
 @app.cell
 def _(mo):
