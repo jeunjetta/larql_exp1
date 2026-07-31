@@ -131,9 +131,24 @@ def _(mo):
     # Interactive DESCRIBE demo
     mo.md(
         r"""
-## 🎯 Interactive Demo: Try DESCRIBE
+## 🎯 Interactive Demo: Visualize the Knowledge Graph (Mock)
+
+LARQL lets you query a transformer model like a graph database. Use the interactive `DESCRIBE` demo below to explore mock knowledge about entities.
+
+**Imagine this:** Each entity is a node, and the relations (like "capital", "language") are edges connecting them to other nodes (the "targets").
 
 Type an entity name below and click "Describe" to see mock results:
+
+### Basic Exercises:
+1.  **Try "France"**: Observe the relations and targets that describe France. Notice how it's connected to `Paris` (capital) and `French` (language).
+2.  **Try "Einstein"**: What kind of knowledge does the model store about famous people? Look for connections to fields of study and key achievements.
+3.  **Try "Paris"**: How does the knowledge about a city differ from a country? Compare its connections to `France` (country) and `Eiffel Tower` (landmark).
+
+### Observation Questions:
+- What patterns do you notice in the "Relation" and "Target" columns?
+- What does the "Score" represent in this knowledge graph context?
+- How might the "Layer" column be useful in understanding *where* in the model's layers this knowledge is stored?
+- What happens if you search for an entity not in the mock database (e.g., "Mars")? How does LARQL handle unknown entities?
 """
     )
     entity_input = mo.ui.text(
@@ -205,6 +220,57 @@ def _(mo, entity_input, describe_button):
 
 
 @app.cell
+def _(mo):
+    mo.md(r"""
+---
+
+## 💡 Knowledge Check: Core Concepts
+
+Let's test your understanding of LARQL's core ideas!
+
+**Question 1:** What is the primary purpose of a **vindex** in LARQL?
+""")
+    q1_options = {
+        "To fine-tune a model with new data": "incorrect1",
+        "To store traditional relational database tables": "incorrect2",
+        "To make transformer model weights queryable like a graph database": "correct",
+        "To compress large language models for deployment": "incorrect3",
+    }
+    q1_radio = mo.ui.radio(q1_options, label="Select your answer:")
+    q1_radio
+    return q1_radio, mo
+
+@app.cell
+@app.cell
+def _(mo):
+    mo.md(r"""
+---
+
+## 💡 Knowledge Check: Core Concepts
+
+Let's test your understanding of LARQL's core ideas!
+
+**Question 1:** What is the primary purpose of a **vindex** in LARQL?
+""")
+    q1_options = {
+        "To fine-tune a model with new data": "incorrect1",
+        "To store traditional relational database tables": "incorrect2",
+        "To make transformer model weights queryable like a graph database": "correct",
+        "To compress large language models for deployment": "incorrect3",
+    }
+    q1_radio = mo.ui.radio(q1_options, label="Select your answer:")
+    q1_radio
+    return q1_radio, mo
+
+@app.cell
+def _(q1_radio, mo):
+    if q1_radio.value == "correct":
+        mo.md("🎉 **Correct!** A vindex transforms model weights into a queryable knowledge graph.")
+    elif q1_radio.value:
+        mo.md("❌ **Incorrect.** Please review the 'Core Idea' section above and try again.")
+    return
+
+@app.cell
 def _(mo, np, is_script_mode):
     mo.md(
         r"""
@@ -214,17 +280,17 @@ LARQL uses a strict dependency chain:
 
 ```
 larql-models      Model config, architecture traits, weight loading
-    ↓
+    |
 larql-compute     CPU substrate: BLAS kernels, attention spine, forward-pass
-    ↓
+    |
 larql-vindex      Vindex lifecycle: extract, load, query, mutate, patch
-    ↓
+    |
 larql-core        Graph algorithms (merge, diff, BFS, pagerank)
-    ↓
+    |
 larql-inference   Engines (Standard, MarkovResidual, Apollo), chat, sessions
-    ↓
+    |
 larql-lql        Lexer/parser/executor/REPL + USE REMOTE client
-    ↓
+    |
 larql-server      HTTP + gRPC server serving vindexes
 larql-cli         Top-level `larql` binary (every subcommand lives here)
 ```
