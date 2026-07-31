@@ -46,6 +46,9 @@ create a `PatchedVindex` overlay — a stack of `.vlp` JSON patch files.
 2. `SAVE PATCH` → persists patch to disk
 3. `COMPILE CURRENT INTO VINDEX` → bakes patches into new vindex
 
+### Observation Question:
+- Why is it important that LARQL uses patches and never directly modifies the base vindex files? What benefits does this approach offer for managing model knowledge?
+
 Let's explore mutations interactively.
 """
     )
@@ -253,6 +256,35 @@ column-wise). The original vindex stays unchanged.
     mo.md(_content)
     return
 
+
+@app.cell
+def _(mo):
+    mo.md(r"""
+---
+
+## 💡 Knowledge Check: Mutation & Patches
+
+Let's test your understanding of LQL mutation statements and the patching system!
+
+**Question 1:** What is the primary function of an `UPDATE` statement in LARQL?
+""")
+    q1_options = {
+        "To add new knowledge edges to the vindex": "incorrect1",
+        "To remove existing knowledge edges from the vindex": "incorrect2",
+        "To modify specific attributes (like target or confidence) of existing edges": "correct",
+        "To create a new, standalone vindex with all changes applied": "incorrect3",
+    }
+    q1_radio = mo.ui.radio(q1_options, label="Select your answer:")
+    q1_radio
+    return q1_radio, mo
+
+@app.cell
+def _(q1_radio, mo):
+    if q1_radio.value == "correct":
+        mo.md("🎉 **Correct!** `UPDATE` is used to change attributes of existing knowledge edges.")
+    elif q1_radio.value:
+        mo.md("❌ **Incorrect.** Review the 'UPDATE Statement' section to understand its purpose.")
+    return
 
 @app.cell
 def _(mo, is_script_mode):
