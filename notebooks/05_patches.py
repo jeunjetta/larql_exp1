@@ -307,10 +307,12 @@ Let's test your understanding of LARQL's patch system!
 
 @app.cell
 def _(q1_radio, mo):
+    _feedback_content = ""
     if q1_radio.value == "correct":
-        mo.md("🎉 **Correct!** `COMPILE CURRENT INTO VINDEX` creates a new vindex with all changes applied.")
+        _feedback_content = "🎉 **Correct!** `COMPILE CURRENT INTO VINDEX` creates a new vindex with all changes applied."
     elif q1_radio.value:
-        mo.md("❌ **Incorrect.** Review the 'COMPILE vs SAVE' section to understand the difference between saving a patch and compiling a new vindex.")
+        _feedback_content = "❌ **Incorrect.** Review the 'COMPILE vs SAVE' section to understand the difference between saving a patch and compiling a new vindex."
+    mo.md(_feedback_content)
     return
 
 @app.cell

@@ -235,10 +235,12 @@ Let's test your understanding of LARQL's extraction levels!
 
 @app.cell
 def _(q1_radio, mo):
+    _feedback_content = ""
     if q1_radio.value == "correct":
-        mo.md("🎉 **Correct!** `INSERT` (and other mutations) require the `All` extraction level because they involve recompiling a new vindex.")
+        _feedback_content = "🎉 **Correct!** `INSERT` (and other mutations) require the `All` extraction level because they involve recompiling a new vindex."
     elif q1_radio.value:
-        mo.md("❌ **Incorrect.** Review the 'Extraction Levels' and 'All Level' sections to understand which operations are supported at each level.")
+        _feedback_content = "❌ **Incorrect.** Review the 'Extraction Levels' and 'All Level' sections to understand which operations are supported at each level."
+    mo.md(_feedback_content)
     return
 
 @app.cell

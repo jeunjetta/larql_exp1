@@ -298,10 +298,12 @@ Let's test your understanding of the vindex file format and memory mapping!
 
 @app.cell
 def _(q1_radio, mo):
+    _feedback_content = ""
     if q1_radio.value == "correct":
-        mo.md("🎉 **Correct!** Memory mapping allows efficient, on-demand access to large files without fully loading them into RAM.")
+        _feedback_content = "🎉 **Correct!** Memory mapping allows efficient, on-demand access to large files without fully loading them into RAM."
     elif q1_radio.value:
-        mo.md("❌ **Incorrect.** Review the 'Memory Mapping (mmap)' section to understand its benefits.")
+        _feedback_content = "❌ **Incorrect.** Review the 'Memory Mapping (mmap)' section to understand its benefits."
+    mo.md(_feedback_content)
     return
 
 @app.cell

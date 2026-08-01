@@ -240,34 +240,16 @@ Let's test your understanding of LARQL's core ideas!
     q1_radio
     return q1_radio, mo
 
-@app.cell
-@app.cell
-def _(mo):
-    mo.md(r"""
----
 
-## 💡 Knowledge Check: Core Concepts
-
-Let's test your understanding of LARQL's core ideas!
-
-**Question 1:** What is the primary purpose of a **vindex** in LARQL?
-""")
-    q1_options = {
-        "To fine-tune a model with new data": "incorrect1",
-        "To store traditional relational database tables": "incorrect2",
-        "To make transformer model weights queryable like a graph database": "correct",
-        "To compress large language models for deployment": "incorrect3",
-    }
-    q1_radio = mo.ui.radio(q1_options, label="Select your answer:")
-    q1_radio
-    return q1_radio, mo
 
 @app.cell
 def _(q1_radio, mo):
+    _feedback_content = ""
     if q1_radio.value == "correct":
-        mo.md("🎉 **Correct!** A vindex transforms model weights into a queryable knowledge graph.")
+        _feedback_content = "🎉 **Correct!** A vindex transforms model weights into a queryable knowledge graph."
     elif q1_radio.value:
-        mo.md("❌ **Incorrect.** Please review the 'Core Idea' section above and try again.")
+        _feedback_content = "❌ **Incorrect.** Please review the 'Core Idea' section above and try again."
+    mo.md(_feedback_content)
     return
 
 @app.cell

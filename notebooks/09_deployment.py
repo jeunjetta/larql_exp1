@@ -45,6 +45,9 @@ LARQL supports flexible deployment architectures:
 - **WebSocket streaming** — real-time token-by-token generation
 - **MoE expert sharding** — serve Mixture-of-Experts models across multiple machines
 
+### Observation Question:
+- What are the main trade-offs (e.g., latency, cost, complexity) you would consider when choosing between a `Standalone server` and a `Client/server split` architecture for deploying a LARQL vindex?
+
 This notebook demonstrates these deployment patterns with mock examples.
 """
     )
