@@ -346,10 +346,14 @@ Let's test your understanding of LQL statement categories!
 
 **Question 1:** Which LQL statement is used to persist a temporary set of changes to the vindex as a `.vlp` JSON file?
 """)
+
+
+@app.cell
+def _(mo):
     q1_options = {
-        "EXTRACT": "incorrect1",
-        "INSERT": "incorrect2",
         "SAVE PATCH": "correct",
+        "BEGIN PATCH": "incorrect1",
+        "APPLY PATCH": "incorrect2",
         "COMPILE": "incorrect3",
     }
     q1_radio = mo.ui.radio(q1_options, label="Select your answer:")
@@ -358,10 +362,12 @@ Let's test your understanding of LQL statement categories!
 
 @app.cell
 def _(q1_radio, mo):
+    _content = ""
     if q1_radio.value == "correct":
-        mo.md("🎉 **Correct!** `SAVE PATCH` is used to persist changes to a patch file.")
+        _content = "🎉 **Correct!** `SAVE PATCH` is used to persist changes to a patch file."
     elif q1_radio.value:
-        mo.md("❌ **Incorrect.** Review the 'Patch Statements' section to recall how changes are persisted.")
+        _content = "❌ **Incorrect.** Review the 'Patch Statements' section to recall how changes are persisted."
+    mo.md(_content)
     return
 
 @app.cell

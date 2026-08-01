@@ -83,22 +83,23 @@ def _(mo):
     return (extract_level,)
 
 
+
 @app.cell
 def _(mo, extract_level):
-    mo.md(
-        r"""
+    _content_parts = []
+    _content_parts.append(r"""
 ## 📦 Extraction Levels
 
 LARQL supports three extraction levels, each adding more capabilities:
 
-"""
-        + f"""
-
+""")
+    _content_parts.append(f"""
 ### Current Selection: **{extract_level.value.upper()}**
 
-"""
-        + (
-            r"""
+""")
+
+    if extract_level.value == "browse":
+        _content_parts.append(r"""
 **`browse` (~3 GB)**
 - ✅ `DESCRIBE` — browse what the model knows
 - ✅ `WALK` — traverse knowledge paths
@@ -107,12 +108,9 @@ LARQL supports three extraction levels, each adding more capabilities:
 
 **Use case:** Explore knowledge without running inference.
 
-"""
-            if extract_level.value == "browse"
-            else ""
-        )
-        + (
-            r"""
+""")
+    elif extract_level.value == "inference":
+        _content_parts.append(r"""
 **`inference` (~6 GB)**
 - ✅ All `browse` features
 - ✅ `INFER` — run inference with the vindex
@@ -121,12 +119,9 @@ LARQL supports three extraction levels, each adding more capabilities:
 
 **Use case:** Query + inference, but not editing.
 
-"""
-            if extract_level.value == "inference"
-            else ""
-        )
-        + (
-            r"""
+""")
+    elif extract_level.value == "all":
+        _content_parts.append(r"""
 **`all` (~10 GB)**
 - ✅ All `inference` features
 - ✅ `COMPILE` — edit and recompile knowledge
@@ -135,14 +130,13 @@ LARQL supports three extraction levels, each adding more capabilities:
 
 **Use case:** Full read-write access to model knowledge.
 
-"""
-            if extract_level.value == "all"
-            else ""
-        )
-        + r"""
+""")
+    
+    _content_parts.append(r"""
 ---
-"""
-    )
+""")
+    _content = "".join(_content_parts)
+    mo.md(_content)
     return
 
 
@@ -207,6 +201,23 @@ def _(mo, model_input, extract_level, extract_button, is_script_mode):
         # Build step-by-step visualization
         _content = f"""
 ## ⚙️ Extraction Process: Step-by-Step
+
+```
++-----------------------------------+
+| Raw Model Weights (safetensors)   |
+| (GGUF)                            |
++-----------------------------------+
+        ↓ extract-index
++-----------------------------------+
+| VIndex Directory (mmap'd)         |
+| (Queryable)                       |
++-----------------------------------+
+        ↓ DESCRIBE / WALK / INFER
++-----------------------------------+
+| Knowledge Discovery               |
++-----------------------------------+
+```
+
 [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/jeunjetta/larql/blob/feature/marimo-notebooks/notebooks/01_extract_index.py)
 
 This section simulates the `larql extract-index` command, showing the internal steps involved in creating a vindex.
@@ -336,10 +347,12 @@ Let's test your understanding of LARQL's extraction process!
 
 @app.cell
 def _(q1_radio, mo):
+    _content = ""
     if q1_radio.value == "correct":
-        mo.md("🎉 **Correct!** The `inference` level provides query and inference capabilities without full write access.")
+        _content = "🎉 **Correct!** The `inference` level provides query and inference capabilities without full write access."
     elif q1_radio.value:
-        mo.md("❌ **Incorrect.** Review the 'Extraction Levels' section to understand the capabilities of each level.")
+        _content = "❌ **Incorrect.** Review the 'Extraction Levels' section to understand the capabilities of each level."
+    mo.md(_content)
     return
 
 @app.cell

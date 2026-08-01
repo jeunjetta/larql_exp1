@@ -268,11 +268,15 @@ Let's test your understanding of LQL mutation statements and the patching system
 
 **Question 1:** What is the primary function of an `UPDATE` statement in LARQL?
 """)
+
+
+@app.cell
+def _(mo):
     q1_options = {
-        "To add new knowledge edges to the vindex": "incorrect1",
-        "To remove existing knowledge edges from the vindex": "incorrect2",
-        "To modify specific attributes (like target or confidence) of existing edges": "correct",
-        "To create a new, standalone vindex with all changes applied": "incorrect3",
+        "Change attributes of existing knowledge edges": "correct",
+        "Add new knowledge edges": "incorrect1",
+        "Remove knowledge edges": "incorrect2",
+        "Bake patches into a new vindex": "incorrect3",
     }
     q1_radio = mo.ui.radio(q1_options, label="Select your answer:")
     q1_radio
@@ -280,10 +284,12 @@ Let's test your understanding of LQL mutation statements and the patching system
 
 @app.cell
 def _(q1_radio, mo):
+    _content = ""
     if q1_radio.value == "correct":
-        mo.md("🎉 **Correct!** `UPDATE` is used to change attributes of existing knowledge edges.")
+        _content = "🎉 **Correct!** `UPDATE` is used to change attributes of existing knowledge edges."
     elif q1_radio.value:
-        mo.md("❌ **Incorrect.** Review the 'UPDATE Statement' section to understand its purpose.")
+        _content = "❌ **Incorrect.** Review the 'UPDATE Statement' section to understand its purpose."
+    mo.md(_content)
     return
 
 @app.cell

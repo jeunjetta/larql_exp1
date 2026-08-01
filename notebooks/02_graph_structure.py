@@ -131,17 +131,17 @@ def _(mo, mock_edges):
 def _(mo, entity_input, mock_edges, layer_range, relation_filter):
     # Apply filters to mock_edges
     _filtered = mock_edges
-    
+
     # Filter by layer range
     _layer_start, _layer_end = layer_range.value
     _filtered = [e for e in _filtered if _layer_start <= e["layer"] <= _layer_end]
-    
+
     # Filter by relation type
     if relation_filter.value != "All":
         _filtered = [e for e in _filtered if e["relation"] == relation_filter.value]
-    
-    # Build content string
-    _content = f"""
+
+    _content_parts = []
+    _content_parts.append(f"""
 ## 📊 Graph View: Edges for "{entity_input.value}"
 [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/jeunjetta/larql/blob/feature/marimo-notebooks/notebooks/02_graph_structure.py)
 
@@ -163,11 +163,12 @@ This section displays the knowledge edges (facts) extracted for the entity you e
 
 | Relation | Target | Score | Layer | Source |
 |-----------|--------|-------|-------|--------|
-"""
-    for e in _filtered:
-        _content += f"| **{e['relation']}** | {e['target']} | {e['score']:.1f} | L{e['layer']} | probe |\n"
+""")
 
-    _content += r"""
+    for e in _filtered:
+        _content_parts.append(f"| **{e['relation']}** | {e['target']} | {e['score']:.1f} | L{e['layer']} | probe |\n")
+
+    _content_parts.append(r"""
 ---
 
 **Edge attributes:**
@@ -177,12 +178,12 @@ This section displays the knowledge edges (facts) extracted for the entity you e
 - `layer` — Model layer where this knowledge was found
 - `source` — How this edge was discovered (probe, explicit, ...)
 
-"""
+
+""")
     
-    # Display content outside conditional
+    _content = "".join(_content_parts)
     mo.md(_content)
     return
-
 @app.cell
 def _(mo, entity_input, mock_edges, layer_range, relation_filter):
     # Build networkx graph for visualization (computes filtered data independently)
@@ -395,11 +396,15 @@ Let's test your understanding of LARQL's graph representation!
 
 **Question 1:** In LARQL's graph abstraction, what do **nodes** primarily represent?
 """)
+
+
+@app.cell
+def _(mo):
     q1_options = {
-        "Transformer model layers": "incorrect1",
-        "Entities (e.g., France, Einstein)": "correct",
-        "Knowledge relations (e.g., capital, language)": "incorrect2",
-        "Feature activation scores": "incorrect3",
+        "entities": "correct",
+        "relations": "incorrect1",
+        "scores": "incorrect2",
+        "layers": "incorrect3",
     }
     q1_radio = mo.ui.radio(q1_options, label="Select your answer:")
     q1_radio
@@ -407,10 +412,12 @@ Let's test your understanding of LARQL's graph representation!
 
 @app.cell
 def _(q1_radio, mo):
+    _content = ""
     if q1_radio.value == "correct":
-        mo.md("🎉 **Correct!** Entities are the nodes in LARQL's knowledge graph.")
+        _content = "🎉 **Correct!** Entities are the nodes in LARQL's knowledge graph."
     elif q1_radio.value:
-        mo.md("❌ **Incorrect.** Review the 'Core Abstraction' section to recall what nodes represent.")
+        _content = "❌ **Incorrect.** Review the 'Core Abstraction' section to recall what nodes represent."
+    mo.md(_content)
     return
 
 @app.cell
