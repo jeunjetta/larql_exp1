@@ -142,7 +142,10 @@ Type an entity name below and click "Describe" to see mock results:
 ### Basic Exercises:
 1.  **Try "France"**: Observe the relations and targets that describe France. Notice how it's connected to `Paris` (capital) and `French` (language).
 2.  **Try "Einstein"**: What kind of knowledge does the model store about famous people? Look for connections to fields of study and key achievements.
-3.  **Try "Paris"**: How does the knowledge about a city differ from a country? Compare its connections to `France` (country) and `Eiffel Tower` (landmark).
+1.  **Try "Paris"**: How does the knowledge about a city differ from a country? Compare its connections to `France` (country) and `Eiffel Tower` (landmark).
+
+### Challenge Exercises:
+1.  **Chaining Queries**: If you wanted to find the `language` spoken in the `capital` of `France`, how would you mentally "chain" the `DESCRIBE` queries? What entities would you search for in what order?
 
 ### Observation Questions:
 - What patterns do you notice in the "Relation" and "Target" columns?
