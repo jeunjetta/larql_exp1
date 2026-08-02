@@ -261,23 +261,22 @@ def _(mo, np, is_script_mode):
         r"""
 ## 🏗️ Architecture
 
-LARQL uses a strict dependency chain:
+LARQL's architecture follows a strict dependency chain to ensure modularity and clear separation of concerns.
 
-```
-larql-models      Model config, architecture traits, weight loading
-    |
-larql-compute     CPU substrate: BLAS kernels, attention spine, forward-pass
-    |
-larql-vindex      Vindex lifecycle: extract, load, query, mutate, patch
-    |
-larql-core        Graph algorithms (merge, diff, BFS, pagerank)
-    |
-larql-inference   Engines (Standard, MarkovResidual, Apollo), chat, sessions
-    |
-larql-lql        Lexer/parser/executor/REPL + USE REMOTE client
-    |
-larql-server      HTTP + gRPC server serving vindexes
-larql-cli         Top-level `larql` binary (every subcommand lives here)
+```mermaid
+graph TD
+    A[larql-models] --> B(larql-compute);
+    B --> C(larql-compute-metal);
+    C --> D(larql-vindex);
+    D --> E(larql-core);
+    D --> F(larql-inference);
+    E --> G(larql-lql);
+    F --> G;
+    G --> H(larql-server);
+    G --> I(larql-cli);
+    G --> J(larql-python);
+    K[model-compute]
+    A -- uses --> K
 ```
 
 **Key invariant:** Base vindexes are **immutable**. All mutation flows through `PatchedVindex` (overlay) — `INSERT`/`DELETE`/`UPDATE` auto-start a patch; `SAVE PATCH` persists it as `.vlp` JSON.
