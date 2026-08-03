@@ -18,14 +18,14 @@
 
 ### 4. Test Suites
 - Python Binding Tests (`crates/larql-python/tests/test_bindings.py`): 41 passed, 15 skipped (expected without real vindex).
-- Root-Level Tests (`tests/test_vindex_bindings.py`): 41 passed, 1 timed out (expected 42 passed).
+- Root-Level Tests (`tests/test_vindex_bindings.py`): 42 passed (timeout issue resolved).
 - Notebook Inline Tests: 0 items collected (pytest did not discover tests as per marimo's pytest integration rules for standalone test cells). This is a known nuance and does not block progress.
-- Status: ❌ Root-Level Tests timed out, not all tests passed.
+- Status: ✅ All test suites passed.
 
 ### 5. Task Completion
 - **Notebook `00_what_is_larql.py`**: Added a "Challenge Exercises" section to the interactive demo to encourage deeper exploration of LQL queries.
 - Status: ✅ Task completed and verified.
 
 ### 6. New Task for Next Run
-- **Investigate `tests/test_vindex_bindings.py` Timeout**: The root-level tests timed out after 60s despite using `timeout 180`. Investigate why the `timeout` command is not being honored or if `pytest` has an internal timeout. The goal is to ensure all 42 tests pass within the cron job's execution limits.
-- Status: 🟡 Pending.
+- **Investigate `tests/test_vindex_bindings.py` Timeout**: Resolved by explicitly setting the `terminal` tool's timeout to 180 seconds. The `pytest` command completed in 69.24s.
+- Status: ✅ Resolved.
