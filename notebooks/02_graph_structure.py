@@ -128,6 +128,19 @@ def _(mo, mock_edges):
 
 
 @app.cell
+def _(mo, mock_edges):
+    # Highlight relation selector
+    highlight_options = ["None"] + sorted(set(e["relation"] for e in mock_edges))
+    highlight_relation = mo.ui.dropdown(
+        options=highlight_options,
+        value="None",
+        label="✨ Highlight Relation"
+    )
+    highlight_relation
+    return (highlight_relation,)
+
+
+@app.cell
 def _(mo, entity_input, mock_edges, layer_range, relation_filter):
     # Apply filters to mock_edges
     _filtered = mock_edges
@@ -179,13 +192,14 @@ This section displays the knowledge edges (facts) extracted for the entity you e
 - `source` — How this edge was discovered (probe, explicit, ...)
 
 
-""")
+"""
+)
     
     _content = "".join(_content_parts)
     mo.md(_content)
     return
 @app.cell
-def _(mo, entity_input, mock_edges, layer_range, relation_filter):
+def _(mo, entity_input, mock_edges, layer_range, relation_filter, highlight_relation):
     # Build networkx graph for visualization (computes filtered data independently)
     import networkx as nx
     import plotly.graph_objects as go
@@ -213,23 +227,50 @@ def _(mo, entity_input, mock_edges, layer_range, relation_filter):
     # Use spring layout for positioning
     pos = nx.spring_layout(G, k=2, iterations=50, seed=42)
 
-    # Create edge trace
-    edge_x = []
-    edge_y = []
-    edge_text = []
+    data_traces = []
+
+    # Create edge traces (separated for highlighting)
+    default_edge_x = []
+    default_edge_y = []
+    default_edge_text = []
+
+    highlighted_edge_x = []
+    highlighted_edge_y = []
+    highlighted_edge_text = []
+
     for u, v, data in G.edges(data=True):
         x0, y0 = pos[u]
         x1, y1 = pos[v]
-        edge_x.extend([x0, x1, None])
-        edge_y.extend([y0, y1, None])
-        edge_text.append(f"{data['relation']} (L{data['layer']}, score={data['score']:.1f})")
+        
+        edge_trace_line = [x0, x1, None]
+        edge_trace_text = f"{data['relation']} (L{data['layer']}, score={data['score']:.1f})"
 
-    edge_trace = go.Scatter(
-        x=edge_x, y=edge_y,
-        line=dict(width=2, color='#888'),
-        hoverinfo='none',
-        mode='lines'
-    )
+        if highlight_relation.value != "None" and data['relation'] == highlight_relation.value:
+            highlighted_edge_x.extend(edge_trace_line)
+            highlighted_edge_y.extend(edge_trace_line) # Y coordinates use same structure
+            highlighted_edge_text.append(edge_trace_text)
+        else:
+            default_edge_x.extend(edge_trace_line)
+            default_edge_y.extend(edge_trace_line) # Y coordinates use same structure
+            default_edge_text.append(edge_trace_text)
+
+    if default_edge_x:
+        data_traces.append(go.Scatter(
+            x=default_edge_x, y=default_edge_y,
+            line=dict(width=2, color='#888'),
+            hoverinfo='none',
+            mode='lines',
+            showlegend=False # Hide from legend if only one type of edge
+        ))
+    
+    if highlighted_edge_x:
+        data_traces.append(go.Scatter(
+            x=highlighted_edge_x, y=highlighted_edge_y,
+            line=dict(width=2, color='#FFC300'), # Highlight color (yellow)
+            hoverinfo='none',
+            mode='lines',
+            showlegend=False # Hide from legend
+        ))
 
     # Create node trace
     node_x = []
@@ -259,10 +300,11 @@ def _(mo, entity_input, mock_edges, layer_range, relation_filter):
             line=dict(width=2, color='white')
         )
     )
+    data_traces.append(node_trace)
 
     # Create figure
     fig = go.Figure(
-        data=[edge_trace, node_trace],
+        data=data_traces,
         layout=go.Layout(
             title=dict(
                 text=f'Knowledge Graph: "{source_entity}"',
@@ -272,7 +314,7 @@ def _(mo, entity_input, mock_edges, layer_range, relation_filter):
             hovermode='closest',
             margin=dict(b=20, l=5, r=5, t=40),
             annotations=[dict(
-                text="Red=Source Entity, Teal=Target Entities<br>Hover over edges to see relation details",
+                text="Red=Source Entity, Teal=Target Entities<br>Yellow=Highlighted Relation<br>Hover over edges to see relation details",
                 showarrow=False,
                 xref="paper", yref="paper",
                 x=0.005, y=-0.002,
@@ -289,7 +331,8 @@ def _(mo, entity_input, mock_edges, layer_range, relation_filter):
 ### Interactive Graph Visualization
 
 *Network representation of knowledge edges. Hover over edges to see relation details.*
-""")
+"""
+    )
     mo.ui.plotly(fig)
     return
 
@@ -395,7 +438,8 @@ def _(mo):
 Let's test your understanding of LARQL's graph representation!
 
 **Question 1:** In LARQL's graph abstraction, what do **nodes** primarily represent?
-""")
+"""
+    )
 
 
 @app.cell
@@ -485,9 +529,6 @@ def _(mo):
 """
     )
     return
-
-
-
 
 
 if __name__ == "__main__":
