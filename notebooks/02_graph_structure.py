@@ -5,6 +5,7 @@
 #     "numpy>=2.0.0",
 #     "networkx>=3.0",
 #     "plotly>=5.0",
+#     "larql", # For Python bindings
 # ]
 # ///
 
@@ -95,7 +96,7 @@ def _(mo, check_setup, get_vindex_path, setup_hint_md):
     
     data_source_select = mo.ui.dropdown(
         options=_options,
-        value=_options[0][1], # Default to real if available, else mock
+        value=_options[0], # Default to real if available, else mock
         label="⚙️ Data Source",
     )
     
@@ -153,14 +154,18 @@ def _(mo, is_script_mode, data_source_select, vindex_path, larql, entity_input):
             _source_info = "🎭 Mock Data (fallback due to error)"
 
     mo.md(f"**Data Source:** {_source_info}")
-    return (_edges,)
 
+    # Calculate min/max layers and options for filters
+    _min_layer = 0
+    _max_layer = 33 
+    if _edges:
+        _min_layer = min(e["layer"] for e in _edges)
+        _max_layer = max(e["layer"] for e in _edges)
+    
+    relation_options = ["All"] + sorted(list(set(e["relation"] for e in _edges if e["relation"] is not None))) # Filter out None relations
+    highlight_options = ["None"] + sorted(list(set(e["relation"] for e in _edges if e["relation"] is not None))) # Filter out None relations
 
-@app.cell
-def _(mo, _edges):
-    # Layer range filter (depends on _edges for min/max)
-    _min_layer = min(e["layer"] for e in _edges)
-    _max_layer = max(e["layer"] for e in _edges)
+    # Define UI elements directly in this cell
     layer_range = mo.ui.range_slider(
         start=_min_layer,
         stop=_max_layer,
@@ -169,37 +174,26 @@ def _(mo, _edges):
         label="📊 Layer Range Filter"
     )
     layer_range
-    return (layer_range,)
 
-
-@app.cell
-def _(mo, _edges):
-    # Relation type filter (depends on _edges for options)
-    relation_options = ["All"] + sorted(set(e["relation"] for e in _edges))
     relation_filter = mo.ui.dropdown(
         options=relation_options,
         value="All",
         label="🔗 Relation Type Filter"
     )
     relation_filter
-    return (relation_filter,)
 
-
-@app.cell
-def _(mo, _edges):
-    # Highlight relation selector
-    highlight_options = ["None"] + sorted(set(e["relation"] for e in _edges))
     highlight_relation = mo.ui.dropdown(
         options=highlight_options,
         value="None",
         label="✨ Highlight Relation"
     )
     highlight_relation
-    return (highlight_relation,)
+
+    return _edges, layer_range, relation_filter, highlight_relation
 
 
 @app.cell
-def _(mo, entity_input, _edges, layer_range, relation_filter):
+def _(mo, entity_input, _edges, layer_range, relation_filter, highlight_relation):
     # Apply filters to _edges
     _filtered = _edges
 
@@ -234,7 +228,8 @@ This section displays the knowledge edges (facts) extracted for the entity you e
 
 | Relation | Target | Score | Layer | Source |
 |-----------|--------|-------|-------|--------|
-""")
+"""
+)
 
     for e in _filtered:
         _content_parts.append(f"| **{e['relation']}** | {e['target']} | {e['score']:.1f} | L{e['layer']} | probe |\n")
@@ -399,7 +394,7 @@ def _(mo, entity_input, _edges, layer_range, relation_filter, highlight_relation
 def _(mo):
     mo.md(
         r"""
-## 🏗️ VIndex as a Graph Database
+## 🏗️ Vindex as a Graph Database
 
 A **vindex** is a graph database with these tables:
 
@@ -477,7 +472,7 @@ SELECT * FROM edges LIMIT 10;
 -- Walk from an entity through relations
 WALK "The capital of France is" TOP 5;
 
--- Returns: [(entity, relation, target, score), ...]
+-- Returns: [(entity, relation, target, score), ... ]
 ```
 
 ---
@@ -521,73 +516,6 @@ def _(q1_radio, mo):
         _content = "❌ **Incorrect.** Review the 'Core Abstraction' section to recall what nodes represent."
     mo.md(_content)
     return
-
-@app.cell
-def _(mo):
-    mo.md(
-        r"""
-## 🎯 Try It Yourself
-
-### 1. Browse Knowledge
-```bash
-# Using CLI
-larql repl
-```
-
-Then in the REPL:
-```sql
-USE "gemma3-4b.vindex";
-DESCRIBE "France" LIMIT 10;
-```
-
-### 2. Query with Python
-```python
-import larql
-
-vindex = larql.load("output/gemma3-4b-v2.vindex")
-
-# Get edges (knowledge)
-edges = vindex.describe("France", verbose=True)
-for e in edges[:5]:
-    print(f"  {e.relation or '?'} → {e.target} score={e.score:.1f} L{e.layer}")
-
-# Get embedding (node representation)
-emb = vindex.embed("France")
-print(f"Embedding shape: {emb.shape}")  # (2560,)
-```
-
-### 3. Explore Graph Structure
-```python
-# Get all relations in the vindex
-relations = vindex.relations()
-print(f"Discovered relations: {relations}")
-
-# Get feature metadata (what features detect)
-meta = vindex.feature_meta(layer=24, feature_idx=0)
-print(f"Feature 0 detects: {meta.top_token}")
-```
-
----
-"""
-    )
-    return
-
-
-@app.cell
-def _(mo):
-    mo.md(
-        r"""
-## 📚 What's Next?
-
-1. **`describe_explorer.py`** — Deep dive into `DESCRIBE` command
-2. **`walk_knowledge.py`** — Learn to traverse knowledge with `WALK`
-3. **`compile_knowledge.py`** — Edit the graph with `INSERT`/`COMPILE`
-
----
-"""
-    )
-    return
-
 
 if __name__ == "__main__":
     app.run()

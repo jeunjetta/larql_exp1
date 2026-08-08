@@ -3,6 +3,7 @@
 # dependencies = [
 #     "marimo",
 #     "numpy>=2.0.0",
+#     "larql", # For Python bindings
 # ]
 # ///
 
@@ -18,13 +19,24 @@ app = marimo.App(width="medium")
 def _():
     import marimo as mo
     import numpy as np
-    return mo, np
+    import larql
+    from _vindex_helper import setup_hint_md, check_setup, get_vindex_path
+    return mo, np, larql, setup_hint_md, check_setup, get_vindex_path
 
 
 @app.cell
 def _(mo):
     is_script_mode = mo.app_meta().mode == "script"
     return (is_script_mode,)
+
+
+@app.cell
+def _(mo, setup_hint_md):
+    _hint = setup_hint_md()
+    if _hint:
+        mo.md(_hint)
+    return
+
 
 
 @app.cell

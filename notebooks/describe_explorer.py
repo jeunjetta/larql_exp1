@@ -3,6 +3,7 @@
 # dependencies = [
 #     "marimo",
 #     "numpy>=2.0.0",
+#     "larql", # For Python bindings
 # ]
 # ///
 
@@ -103,7 +104,7 @@ def _(mo):
 
 
 @app.cell
-def _(entity_input, layer_start, layer_end, verbose_toggle, is_script_mode, mo, np, Path):
+def _(entity_input, layer_start, layer_end, verbose_toggle, is_script_mode, mo, np, Path, _setup):
     # Build mock data for script mode or when vindex not available
     if is_script_mode or not _setup.get("vindex_available", False):  # Always use mock for demo (avoids 3GB load)
         # Mock DESCRIBE results
@@ -135,26 +136,79 @@ def _(entity_input, layer_start, layer_end, verbose_toggle, is_script_mode, mo, 
 """
         )
         
+        
         if filtered_edges:
-            for edge in filtered_edges[:10]:  # Show top 10
+            # Prepare data for mo.ui.table
+            table_data = []
+            for edge in filtered_edges[:10]:
+                row = {
+                    "Relation": edge['relation'] or '?',
+                    "Target": edge['target'],
+                    "Score": f"{edge['score']:.1f}",
+                    "Layer": edge['layer'],
+                }
                 if verbose_toggle.value:
-                    mo.md(
-                        f"""
-- **{edge['relation'] or '?'}** → `{edge['target']}`  
-  Score: {edge['score']:.1f} | Layer {edge['layer']} ({edge['source']})
+                    row["Source"] = edge.get('source', 'unknown')
+                table_data.append(row)
+            
+            # Display the table
+            mo.ui.table(table_data)
+    
+    elif _setup.get("vindex_available", False):
+        import larql
+        # Ensure LD_LIBRARY_PATH is set for the process
+        import os
+        lib_path = "/home/kar/local/usr/lib/x86_64-linux-gnu/openblas-openmp"
+        if lib_path not in os.environ.get("LD_LIBRARY_PATH", ""):
+            os.environ["LD_LIBRARY_PATH"] = f"{lib_path}:{os.environ.get('LD_LIBRARY_PATH', '')}"
+
+        try:
+            # Load vindex (it's mmap'd, so fast)
+            vindex_path = Path(_setup["vindex_path"])
+            vindex = larql.load(str(vindex_path))
+
+            # Call DESCRIBE
+            raw_edges = vindex.describe(entity_input.value, verbose=True)
+
+            # Filter by layer range
+            filtered_edges = [
+                e for e in raw_edges
+                if layer_start.value <= e.layer <= layer_end.value
+            ]
+            
+            # Display results
+            mo.md(
+                f"""
+## 📊 DESCRIBE Results for "{entity_input.value}"
+
+**Entity:** {entity_input.value}  
+**Layer Range:** {layer_start.value}–{layer_end.value}  
+**Mode:** {"Verbose" if verbose_toggle.value else "Brief"}
+
+### Edges Found:
 """
-                    )
-                else:
-                    mo.md(
-                        f"- {edge['relation'] or '?'} → {edge['target']} (L{edge['layer']})\n"
-                    )
-        else:
-            mo.md("No edges found in the selected layer range.\n")
-    else:
-        # Real vindex code would go here
-        pass
+            )
+            if filtered_edges:
+                table_data = []
+                for edge in filtered_edges[:10]:
+                    row = {
+                        "Relation": edge.relation or '?',
+                        "Target": edge.target,
+                        "Score": f"{edge.score:.1f}",
+                        "Layer": edge.layer,
+                    }
+                    if verbose_toggle.value:
+                        row["Source"] = edge.source
+                    table_data.append(row)
+                mo.ui.table(table_data)
+            else:
+                mo.md("No edges found for this entity and layer range.")
+
+        except Exception as e:
+            mo.md(f"❌ Error loading vindex or describing entity: {e}")
     
     return
+
 
 
 @app.cell
