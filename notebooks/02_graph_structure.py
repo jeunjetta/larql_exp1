@@ -21,7 +21,9 @@ def _():
     import marimo as mo
     import numpy as np
     from pathlib import Path
-    return mo, np, Path
+    import larql
+    from _vindex_helper import get_vindex_path, setup_hint_md, check_setup
+    return mo, np, Path, larql, get_vindex_path, setup_hint_md, check_setup
 
 
 @app.cell
@@ -83,26 +85,82 @@ def _(mo):
 
 
 @app.cell
-def _(mo, is_script_mode):
-    # Build FULL mock graph data (no filtering here)
-    mock_edges = [
-        {"relation": "capital", "target": "Paris", "score": 1436.9, "layer": 27},
-        {"relation": "language", "target": "French", "score": 35.2, "layer": 24},
-        {"relation": "continent", "target": "Europe", "score": 14.4, "layer": 25},
-        {"relation": "borders", "target": "Spain", "score": 13.3, "layer": 18},
-        {"relation": "currency", "target": "Euro", "score": 8.7, "layer": 22},
-        {"relation": "capital", "target": "Paris", "score": 1200.5, "layer": 26},
-        {"relation": "language", "target": "French", "score": 42.1, "layer": 23},
-        {"relation": "neighbor", "target": "Italy", "score": 11.2, "layer": 20},
-    ]
-    return (mock_edges,)
+def _(mo, check_setup, get_vindex_path, setup_hint_md):
+    setup_status = check_setup()
+    vindex_path = get_vindex_path()
+
+    _options = [("🎭 Mock Data", "mock")]
+    if vindex_path and setup_status["larql_available"]:
+        _options.insert(0, ("🧠 Real Vindex", "real"))
+    
+    data_source_select = mo.ui.dropdown(
+        options=_options,
+        value=_options[0][1], # Default to real if available, else mock
+        label="⚙️ Data Source",
+    )
+    
+    if not setup_status["larql_available"]:
+        mo.md(setup_hint_md()) # Show hint if larql not available
+    
+    data_source_select
+    return (data_source_select, setup_status, vindex_path)
 
 
 @app.cell
-def _(mo, mock_edges):
-    # Layer range filter (depends on mock_edges for min/max)
-    _min_layer = min(e["layer"] for e in mock_edges)
-    _max_layer = max(e["layer"] for e in mock_edges)
+def _(mo, is_script_mode, data_source_select, vindex_path, larql, entity_input):
+    _edges = []
+    _source_info = ""
+
+    if is_script_mode or data_source_select.value == "mock":
+        _edges = [
+            {"relation": "capital", "target": "Paris", "score": 1436.9, "layer": 27},
+            {"relation": "language", "target": "French", "score": 35.2, "layer": 24},
+            {"relation": "continent", "target": "Europe", "score": 14.4, "layer": 25},
+            {"relation": "borders", "target": "Spain", "score": 13.3, "layer": 18},
+            {"relation": "currency", "target": "Euro", "score": 8.7, "layer": 22},
+            {"relation": "capital", "target": "Paris", "score": 1200.5, "layer": 26},
+            {"relation": "language", "target": "French", "score": 42.1, "layer": 23},
+            {"relation": "neighbor", "target": "Italy", "score": 11.2, "layer": 20},
+        ]
+        _source_info = "🎭 Mock Data"
+    elif data_source_select.value == "real" and vindex_path:
+        try:
+            vindex = larql.load(str(vindex_path))
+            real_entity = entity_input.value
+            real_edges = vindex.describe(real_entity, verbose=True)
+            _edges = [
+                {
+                    "relation": e.relation or "unspecified",
+                    "target": e.target,
+                    "score": e.score,
+                    "layer": e.layer,
+                }
+                for e in real_edges
+            ]
+            _source_info = f"🧠 Real Vindex: {vindex_path.name} (described '{real_entity}')"
+        except Exception as e:
+            mo.md(f"❌ Error loading real vindex: {e}. Falling back to mock data.")
+            _edges = [
+                {"relation": "capital", "target": "Paris", "score": 1436.9, "layer": 27},
+                {"relation": "language", "target": "French", "score": 35.2, "layer": 24},
+                {"relation": "continent", "target": "Europe", "score": 14.4, "layer": 25},
+                {"relation": "borders", "target": "Spain", "score": 13.3, "layer": 18},
+                {"relation": "currency", "target": "Euro", "score": 8.7, "layer": 22},
+                {"relation": "capital", "target": "Paris", "score": 1200.5, "layer": 26},
+                {"relation": "language", "target": "French", "score": 42.1, "layer": 23},
+                {"relation": "neighbor", "target": "Italy", "score": 11.2, "layer": 20},
+            ]
+            _source_info = "🎭 Mock Data (fallback due to error)"
+
+    mo.md(f"**Data Source:** {_source_info}")
+    return (_edges,)
+
+
+@app.cell
+def _(mo, _edges):
+    # Layer range filter (depends on _edges for min/max)
+    _min_layer = min(e["layer"] for e in _edges)
+    _max_layer = max(e["layer"] for e in _edges)
     layer_range = mo.ui.range_slider(
         start=_min_layer,
         stop=_max_layer,
@@ -115,9 +173,9 @@ def _(mo, mock_edges):
 
 
 @app.cell
-def _(mo, mock_edges):
-    # Relation type filter (depends on mock_edges for options)
-    relation_options = ["All"] + sorted(set(e["relation"] for e in mock_edges))
+def _(mo, _edges):
+    # Relation type filter (depends on _edges for options)
+    relation_options = ["All"] + sorted(set(e["relation"] for e in _edges))
     relation_filter = mo.ui.dropdown(
         options=relation_options,
         value="All",
@@ -128,9 +186,9 @@ def _(mo, mock_edges):
 
 
 @app.cell
-def _(mo, mock_edges):
+def _(mo, _edges):
     # Highlight relation selector
-    highlight_options = ["None"] + sorted(set(e["relation"] for e in mock_edges))
+    highlight_options = ["None"] + sorted(set(e["relation"] for e in _edges))
     highlight_relation = mo.ui.dropdown(
         options=highlight_options,
         value="None",
@@ -141,9 +199,9 @@ def _(mo, mock_edges):
 
 
 @app.cell
-def _(mo, entity_input, mock_edges, layer_range, relation_filter):
-    # Apply filters to mock_edges
-    _filtered = mock_edges
+def _(mo, entity_input, _edges, layer_range, relation_filter):
+    # Apply filters to _edges
+    _filtered = _edges
 
     # Filter by layer range
     _layer_start, _layer_end = layer_range.value
@@ -199,13 +257,13 @@ This section displays the knowledge edges (facts) extracted for the entity you e
     mo.md(_content)
     return
 @app.cell
-def _(mo, entity_input, mock_edges, layer_range, relation_filter, highlight_relation):
+def _(mo, entity_input, _edges, layer_range, relation_filter, highlight_relation):
     # Build networkx graph for visualization (computes filtered data independently)
     import networkx as nx
     import plotly.graph_objects as go
     
     # Apply filters to get _filtered
-    _filtered = mock_edges
+    _filtered = _edges
     _layer_start, _layer_end = layer_range.value
     _filtered = [e for e in _filtered if _layer_start <= e["layer"] <= _layer_end]
     if relation_filter.value != "All":
